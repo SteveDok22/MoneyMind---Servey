@@ -82,3 +82,28 @@ def format_percentage(value, decimal_places=1):
         return f"{value * 100:.{decimal_places}f}%"
     except (ValueError, TypeError):
         return "0.0%"
+    
+def print_section_header(title, width=50):
+    """
+    Print a formatted section header.
+    
+    Args:
+        title (str): Header title
+        width (int): Total width of the header
+    """
+    print("\n" + "=" * width)
+    print(f"{title:^{width}}")
+    print("=" * width)
+
+
+def print_subsection_header(title, width=40):
+    """
+    Print a formatted subsection header.
+    
+    Args:
+        title (str): Header title
+        width (int): Total width of the header
+    """
+    print("\n" + "-" * width)
+    print(f"{title}")
+    print("-" * width)
