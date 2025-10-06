@@ -50,3 +50,35 @@ def validate_yes_no(user_input):
         return False
     else:
         return None
+
+def format_currency(amount):
+    """
+    Format numeric value as currency.
+    
+    Args:
+        amount (float): Numeric amount
+        
+    Returns:
+        str: Formatted currency string
+    """
+    try:
+        return f"${amount:,.2f}"
+    except (ValueError, TypeError):
+        return "$0.00"
+
+
+def format_percentage(value, decimal_places=1):
+    """
+    Format numeric value as percentage.
+    
+    Args:
+        value (float): Numeric value (0-1 for percentage)
+        decimal_places (int): Number of decimal places
+        
+    Returns:
+        str: Formatted percentage string
+    """
+    try:
+        return f"{value * 100:.{decimal_places}f}%"
+    except (ValueError, TypeError):
+        return "0.0%"
