@@ -103,7 +103,46 @@ def print_subsection_header(title, width=40):
     Args:
         title (str): Header title
         width (int): Total width of the header
-    """
+    """ 
     print("\n" + "-" * width)
     print(f"{title}")
     print("-" * width)
+    
+def safe_divide(numerator, denominator, default=0):
+    """
+    Safely divide two numbers, handling division by zero.
+    
+    Args:
+        numerator (float): Numerator value
+        denominator (float): Denominator value
+        default (float): Default value if division by zero
+        
+    Returns:
+        float: Result of division or default value
+    """
+    try:
+        if denominator == 0:
+            return default
+        return numerator / denominator
+    except (ValueError, TypeError):
+        return default
+
+
+def display_success_message(message):
+    """Display a success message with checkmark."""
+    print(f"✅ {message}")
+
+
+def display_error_message(message):
+    """Display an error message with X mark."""
+    print(f"❌ {message}")
+
+
+def display_loading_message(message="Loading..."):
+    """Display a loading message."""
+    print(f"⏳ {message}")
+
+
+def wait_for_user():
+    """Wait for user to press Enter before continuing."""
+    input("\nPress Enter to continue...")
