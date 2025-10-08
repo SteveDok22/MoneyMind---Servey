@@ -78,6 +78,33 @@ def _validate_data_structure(self):
         
         return True
     
+def _clean_data(self):
+        """Clean and preprocess the data."""
+        try:
+            # Clean numeric columns
+            numeric_columns = ['age', 'annual_income', 'monthly_savings', 'financial_literacy_score']
+            for col in numeric_columns:
+                if col in self.data.columns:
+                    self.data[col] = pd.to_numeric(self.data[col], errors='coerce')
+            
+            # Clean spending columns if they exist
+            spending_columns = [col for col in self.data.columns if 'spending' in col.lower()]
+            for col in spending_columns:
+                self.data[col] = pd.to_numeric(self.data[col], errors='coerce')
+            
+            # Clean yes/no columns - convert to True/False
+            yes_no_columns = ['uses_mobile_banking', 'owns_crypto']
+            for col in yes_no_columns:
+                if col in self.data.columns:
+                    self.data[col] = self.data[col].str.lower().map({'yes': True, 'no': False})
+            
+            # Remove rows with critical missing data
+            critical_columns = ['age', 'annual_income']
+            self.data = self.data.dropna(subset=critical_columns)
+            
+        except Exception as e:
+            display_error_message(f"Error cleaning data: {str(e)}")
+    
 def _generate_data_info(self):
         """Generate summary information about the loaded data."""
         self.data_info = {
