@@ -146,3 +146,39 @@ def display_loading_message(message="Loading..."):
 def wait_for_user():
     """Wait for user to press Enter before continuing."""
     input("\nPress Enter to continue...")
+    
+def handle_file_error(error, filename):
+    """
+    Handle file-related errors with user-friendly messages.
+    
+    Args:
+        error (Exception): The exception that occurred
+        filename (str): Name of the file being processed
+    """
+    if isinstance(error, FileNotFoundError):
+        print(f"❌ File not found: {filename}")
+        print("Please check that the file exists and try again.")
+    elif isinstance(error, PermissionError):
+        print(f"❌ Permission denied accessing: {filename}")
+        print("Please check file permissions and try again.")
+    else:
+        print(f"❌ Error processing file {filename}: {str(error)}")
+
+
+def create_directory_if_not_exists(directory_path):
+    """
+    Create directory if it doesn't exist.
+    
+    Args:
+        directory_path (str): Path to directory
+        
+    Returns:
+        bool: True if directory exists or was created successfully
+    """
+    try:
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
+        return True
+    except OSError as e:
+        print(f"Error creating directory {directory_path}: {e}")
+        return False
