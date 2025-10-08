@@ -77,3 +77,14 @@ def _validate_data_structure(self):
         self._clean_data()
         
         return True
+    
+def _generate_data_info(self):
+        """Generate summary information about the loaded data."""
+        self.data_info = {
+            'total_records': len(self.data),
+            'columns_count': len(self.data.columns),
+            'numeric_columns': list(self.data.select_dtypes(include=['int64', 'float64']).columns),
+            'categorical_columns': list(self.data.select_dtypes(include=['object', 'bool']).columns),
+            'age_range': (self.data['age'].min(), self.data['age'].max()) if 'age' in self.data.columns else None,
+            'income_range': (self.data['annual_income'].min(), self.data['annual_income'].max()) if 'annual_income' in self.data.columns else None
+        }
