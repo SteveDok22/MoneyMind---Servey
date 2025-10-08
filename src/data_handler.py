@@ -49,3 +49,31 @@ def load_csv(self, file_path):
         except Exception as e:
             handle_file_error(e, file_path)
             return False
+        
+def _validate_data_structure(self):
+        """
+        Validate that the CSV has required columns.
+        
+        Returns:
+            bool: True if data structure is valid
+        """
+        required_columns = [
+            'respondent_id', 'age', 'annual_income', 'monthly_savings',
+            'uses_mobile_banking', 'owns_crypto', 'primary_investment'
+        ]
+        
+        missing_columns = [col for col in required_columns if col not in self.data.columns]
+        
+        if missing_columns:
+            display_error_message(f"Missing required columns: {missing_columns}")
+            return False
+            
+        # Check if data is not empty
+        if len(self.data) == 0:
+            display_error_message("CSV file is empty")
+            return False
+            
+        # Validate data types and clean data
+        self._clean_data()
+        
+        return True
