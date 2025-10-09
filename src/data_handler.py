@@ -153,3 +153,94 @@ class DataHandler:
             }
         
         return summary
+    
+    def filter_data(self, **kwargs):
+        """
+        Filter data based on provided criteria.
+        
+        Args:
+            **kwargs: Filter criteria (e.g., min_age=25, max_income=100000)
+            
+        Returns:
+            pd.DataFrame: Filtered data
+        """
+        if self.data is None:
+            return pd.DataFrame()
+        
+        filtered_data = self.data.copy()
+        
+        try:
+            # Age filters
+            if 'min_age' in kwargs:
+                filtered_data = filtered_data[filtered_data['age'] >= kwargs['min_age']]
+            if 'max_age' in kwargs:
+                filtered_data = filtered_data[filtered_data['age'] <= kwargs['max_age']]
+            
+            # Income filters
+            if 'min_income' in kwargs:
+                filtered_data = filtered_data[filtered_data['annual_income'] >= kwargs['min_income']]
+            if 'max_income' in kwargs:
+                filtered_data = filtered_data[filtered_data['annual_income'] <= kwargs['max_income']]
+            
+            # Boolean filters
+            if 'uses_mobile_banking' in kwargs:
+                filtered_data = filtered_data[filtered_data['uses_mobile_banking'] == kwargs['uses_mobile_banking']]
+            if 'owns_crypto' in kwargs:
+                filtered_data = filtered_data[filtered_data['owns_crypto'] == kwargs['owns_crypto']]
+            
+            # Investment type filter
+            if 'investment_type' in kwargs:
+                filtered_data = filtered_data[filtered_data['primary_investment'] == kwargs['investment_type']]
+                
+        except Exception as e:
+            display_error_message(f"Error filtering data: {str(e)}")
+            return self.data.copy()
+        
+        return filtered_data
+    
+def get_data_validation_report(self):
+        """
+        Generate a data validation report.
+        
+        Returns:
+            dict: Validation report with potential issues
+        """
+        if self.data is None:
+            return {"error": "No data loaded"}
+        
+        report = {
+            "Data Quality Issues": [],
+            "Recommendations": []
+        }
+        
+        # Check for missing values in critical columns
+        critical_columns = ['age', 'annual_income', 'monthly_savings']
+        for col in critical_columns:
+            if col in self.data.columns:
+                missing_pct = (self.data[col].isnull().sum() / len(self.data)) * 100
+                if missing_pct > 0:
+                    report["Data Quality Issues"].append(
+                        f"{col}: {missing_pct:.1f}% missing values"
+                    )
+        
+        # Check for unrealistic values
+        if 'age' in self.data.columns:
+            if (self.data['age'] < 18).any() or (self.data['age'] > 100).any():
+                report["Data Quality Issues"].append(
+                    "Age values outside realistic range (18-100)"
+                )
+        
+        if 'annual_income' in self.data.columns:
+            if (self.data['annual_income'] < 0).any():
+                report["Data Quality Issues"].append(
+                    "Negative income values found"
+                )
+        
+        # Generate recommendations
+        if len(report["Data Quality Issues"]) == 0:
+            report["Recommendations"].append("Data quality looks good!")
+        else:
+            report["Recommendations"].append("Consider cleaning data before analysis")
+            report["Recommendations"].append("Review and handle missing values appropriately")
+        
+        return report
