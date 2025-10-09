@@ -115,3 +115,41 @@ def _generate_data_info(self):
             'age_range': (self.data['age'].min(), self.data['age'].max()) if 'age' in self.data.columns else None,
             'income_range': (self.data['annual_income'].min(), self.data['annual_income'].max()) if 'annual_income' in self.data.columns else None
         }
+        
+def get_data_summary(self):
+        """
+        Get a comprehensive summary of the loaded data.
+        
+        Returns:
+            dict: Dictionary containing data summary information
+        """
+        if self.data is None:
+            return {"error": "No data loaded"}
+        
+        summary = {
+            "Dataset Overview": {
+                "Total Respondents": len(self.data),
+                "Number of Columns": len(self.data.columns),
+                "Age Range": f"{self.data['age'].min():.0f} - {self.data['age'].max():.0f} years" if 'age' in self.data.columns else "N/A",
+                "Income Range": f"${self.data['annual_income'].min():,.0f} - ${self.data['annual_income'].max():,.0f}" if 'annual_income' in self.data.columns else "N/A"
+            },
+            "Demographics": {
+                "Average Age": f"{self.data['age'].mean():.1f} years" if 'age' in self.data.columns else "N/A",
+                "Median Income": f"${self.data['annual_income'].median():,.0f}" if 'annual_income' in self.data.columns else "N/A",
+                "Average Savings": f"${self.data['monthly_savings'].mean():,.0f}" if 'monthly_savings' in self.data.columns else "N/A"
+            },
+            "Technology Adoption": {
+                "Mobile Banking Users": f"{(self.data['uses_mobile_banking'].sum() / len(self.data) * 100):.1f}%" if 'uses_mobile_banking' in self.data.columns else "N/A",
+                "Crypto Owners": f"{(self.data['owns_crypto'].sum() / len(self.data) * 100):.1f}%" if 'owns_crypto' in self.data.columns else "N/A"
+            }
+        }
+        
+        # Add investment preferences if available
+        if 'primary_investment' in self.data.columns:
+            investment_counts = self.data['primary_investment'].value_counts()
+            summary["Investment Preferences"] = {
+                inv_type.title(): f"{count} ({count/len(self.data)*100:.1f}%)" 
+                for inv_type, count in investment_counts.head().items()
+            }
+        
+        return summary
