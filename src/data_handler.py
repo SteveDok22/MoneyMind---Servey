@@ -18,7 +18,7 @@ class DataHandler:
         self.original_data = None
         self.data_info = {}
         
-def load_csv(self, file_path):
+    def load_csv(self, file_path):
         """
         Load CSV file and perform initial validation.
         
@@ -50,7 +50,7 @@ def load_csv(self, file_path):
             handle_file_error(e, file_path)
             return False
         
-def _validate_data_structure(self):
+    def _validate_data_structure(self):
         """
         Validate that the CSV has required columns.
         
@@ -78,7 +78,7 @@ def _validate_data_structure(self):
         
         return True
     
-def _clean_data(self):
+    def _clean_data(self):
         """Clean and preprocess the data."""
         try:
             # Clean numeric columns
@@ -105,7 +105,7 @@ def _clean_data(self):
         except Exception as e:
             display_error_message(f"Error cleaning data: {str(e)}")
     
-def _generate_data_info(self):
+    def _generate_data_info(self):
         """Generate summary information about the loaded data."""
         self.data_info = {
             'total_records': len(self.data),
@@ -116,7 +116,7 @@ def _generate_data_info(self):
             'income_range': (self.data['annual_income'].min(), self.data['annual_income'].max()) if 'annual_income' in self.data.columns else None
         }
         
-def get_data_summary(self):
+    def get_data_summary(self):
         """
         Get a comprehensive summary of the loaded data.
         
