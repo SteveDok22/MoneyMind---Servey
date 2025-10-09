@@ -244,3 +244,29 @@ def get_data_validation_report(self):
             report["Recommendations"].append("Review and handle missing values appropriately")
         
         return report
+    
+def export_cleaned_data(self, output_path):
+        """
+        Export cleaned data to CSV.
+        
+        Args:
+            output_path (str): Path for output file
+            
+        Returns:
+            bool: True if successful
+        """
+        try:
+            if self.data is None:
+                display_error_message("No data to export")
+                return False
+            
+            # Create directory if it doesn't exist
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            
+            self.data.to_csv(output_path, index=False)
+            display_success_message(f"Data exported to {output_path}")
+            return True
+            
+        except Exception as e:
+            display_error_message(f"Error exporting data: {str(e)}")
+            return False
