@@ -56,3 +56,31 @@ def get_spending_analysis(self):
         }
         
         return analysis
+    
+# Category breakdown
+        for col in spending_cols:
+            category_name = col.replace('monthly_spending_', '').replace('_', ' ').title()
+            analysis["Category Breakdown"][category_name] = {
+                "Average": format_currency(self.data[col].mean()),
+                "Percentage of Total": format_percentage(
+                    self.data[col].sum() / self.data['total_spending'].sum()
+                )
+            }
+        
+        # Generate insights
+        if spending_cols:
+            # Find highest spending category
+            category_totals = {
+                col.replace('monthly_spending_', '').title(): self.data[col].sum() 
+                for col in spending_cols
+            }
+            highest_category = max(category_totals, key=category_totals.get)
+            analysis["Insights"].append(f"Highest spending category: {highest_category}")
+            
+            # Spending vs income ratio
+            if 'annual_income' in self.data.columns:
+                monthly_income = self.data['annual_income'] / 12
+                spending_ratio = (self.data['total_spending'] / monthly_income).mean()
+                analysis["Insights"].append(
+                    f"Average spending-to-income ratio: {format_percentage(spending_ratio)}"
+                )
