@@ -22,7 +22,7 @@ class FinanceAnalyzer:
         """
         self.data = data.copy() if data is not None else pd.DataFrame()
         
-def get_spending_analysis(self):
+    def get_spending_analysis(self):
         """
         Analyze spending patterns across different categories.
         
@@ -54,10 +54,8 @@ def get_spending_analysis(self):
             "Median Total Spending": format_currency(self.data['total_spending'].median()),
             "Spending Range": f"{format_currency(self.data['total_spending'].min())} - {format_currency(self.data['total_spending'].max())}"
         }
-        
-        return analysis
     
-# Category breakdown
+        # Category breakdown
         for col in spending_cols:
             category_name = col.replace('monthly_spending_', '').replace('_', ' ').title()
             analysis["Category Breakdown"][category_name] = {
@@ -84,3 +82,48 @@ def get_spending_analysis(self):
                 analysis["Insights"].append(
                     f"Average spending-to-income ratio: {format_percentage(spending_ratio)}"
                 )
+                 
+        return analysis
+    
+    def get_savings_analysis(self):
+        """
+        Analyze savings behavior and patterns.
+        
+        Returns:
+            dict: Comprehensive savings analysis
+        """
+        if self.data.empty or 'monthly_savings' not in self.data.columns:
+            return {"error": "No savings data available"}
+        
+        analysis = {
+            "Savings Overview": {},
+            "Savings Rate Analysis": {},
+            "Insights": []
+        }
+        
+        # Basic savings statistics
+        analysis["Savings Overview"] = {
+            "Average Monthly Savings": format_currency(self.data['monthly_savings'].mean()),
+            "Median Monthly Savings": format_currency(self.data['monthly_savings'].median()),
+            "Savings Range": f"{format_currency(self.data['monthly_savings'].min())} - {format_currency(self.data['monthly_savings'].max())}"
+        }
+        
+        # Savings rate analysis (if income data available)
+        if 'annual_income' in self.data.columns:
+            monthly_income = self.data['annual_income'] / 12
+            self.data['savings_rate'] = self.data['monthly_savings'] / monthly_income
+            
+            analysis["Savings Rate Analysis"] = {
+                "Average Savings Rate": format_percentage(self.data['savings_rate'].mean()),
+                "Median Savings Rate": format_percentage(self.data['savings_rate'].median()),
+                "High Savers (>20%)": f"{len(self.data[self.data['savings_rate'] > 0.2])} respondents",
+                "Low Savers (<10%)": f"{len(self.data[self.data['savings_rate'] < 0.1])} respondents"
+            }
+            
+            # Generate insight
+            high_savers_pct = len(self.data[self.data['savings_rate'] > 0.2]) / len(self.data)
+            analysis["Insights"].append(
+                f"{format_percentage(high_savers_pct)} of respondents save more than 20% of their income"
+            )
+        
+        return analysis
