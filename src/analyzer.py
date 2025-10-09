@@ -127,3 +127,55 @@ class FinanceAnalyzer:
             )
         
         return analysis
+    
+    def get_investment_analysis(self):
+        """
+        Analyze investment preferences and cryptocurrency adoption.
+        
+        Returns:
+            dict: Investment and crypto analysis
+        """
+        if self.data.empty:
+            return {"error": "No data available"}
+        
+        analysis = {
+            "Investment Preferences": {},
+            "Cryptocurrency Analysis": {},
+            "Insights": []
+        }
+        
+        # Investment preferences
+        if 'primary_investment' in self.data.columns:
+            investment_counts = self.data['primary_investment'].value_counts()
+            total_investors = len(self.data[self.data['primary_investment'] != 'none'])
+            
+            analysis["Investment Preferences"]["Distribution"] = {
+                inv_type.title(): f"{count} respondents ({format_percentage(count/len(self.data))})"
+                for inv_type, count in investment_counts.items()
+            }
+            
+            analysis["Investment Preferences"]["Summary"] = {
+                "Total Active Investors": f"{total_investors} out of {len(self.data)} respondents",
+                "Investment Rate": format_percentage(total_investors / len(self.data))
+            }
+        
+        # Cryptocurrency analysis - THIS IS KEY FOR FINTECH!
+        if 'owns_crypto' in self.data.columns:
+            crypto_owners = self.data['owns_crypto'].sum()
+            crypto_rate = crypto_owners / len(self.data)
+            
+            analysis["Cryptocurrency Analysis"] = {
+                "Total Crypto Owners": f"{crypto_owners} out of {len(self.data)} respondents",
+                "Crypto Adoption Rate": format_percentage(crypto_rate),
+                "Non-Crypto Users": f"{len(self.data) - crypto_owners} respondents"
+            }
+            
+            # Generate insight
+            if crypto_rate > 0.5:
+                analysis["Insights"].append("Majority of respondents own cryptocurrency")
+            elif crypto_rate > 0.3:
+                analysis["Insights"].append("Significant cryptocurrency adoption among respondents")
+            else:
+                analysis["Insights"].append("Limited cryptocurrency adoption among respondents")
+        
+        return analysis
