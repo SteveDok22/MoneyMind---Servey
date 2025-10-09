@@ -198,7 +198,7 @@ class DataHandler:
         
         return filtered_data
     
-def get_data_validation_report(self):
+    def get_data_validation_report(self):
         """
         Generate a data validation report.
         
@@ -245,7 +245,7 @@ def get_data_validation_report(self):
         
         return report
     
-def export_cleaned_data(self, output_path):
+    def export_cleaned_data(self, output_path):
         """
         Export cleaned data to CSV.
         
