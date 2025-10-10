@@ -227,3 +227,69 @@ class FinanceAnalyzer:
             }
         
         return analysis
+    
+    def get_financial_literacy_analysis(self):
+        """
+        Analyze financial literacy scores and correlations.
+        
+        Returns:
+            dict: Financial literacy analysis
+        """
+        if self.data.empty or 'financial_literacy_score' not in self.data.columns:
+            return {"error": "No financial literacy data available"}
+        
+        analysis = {
+            "Literacy Overview": {},
+            "Score Distribution": {},
+            "Correlations": {},
+            "Insights": []
+        }
+        
+        # Basic literacy statistics
+        analysis["Literacy Overview"] = {
+            "Average Score": f"{self.data['financial_literacy_score'].mean():.1f}/10",
+            "Median Score": f"{self.data['financial_literacy_score'].median():.1f}/10",
+            "Score Range": f"{self.data['financial_literacy_score'].min():.0f} - {self.data['financial_literacy_score'].max():.0f}"
+        }
+        
+        # Score distribution - categorize people
+        high_literacy = len(self.data[self.data['financial_literacy_score'] >= 8])
+        medium_literacy = len(self.data[
+            (self.data['financial_literacy_score'] >= 6) & 
+            (self.data['financial_literacy_score'] < 8)
+        ])
+        low_literacy = len(self.data[self.data['financial_literacy_score'] < 6])
+        
+        analysis["Score Distribution"] = {
+            "High Literacy (8-10)": f"{high_literacy} respondents ({format_percentage(high_literacy/len(self.data))})",
+            "Medium Literacy (6-7)": f"{medium_literacy} respondents ({format_percentage(medium_literacy/len(self.data))})",
+            "Low Literacy (<6)": f"{low_literacy} respondents ({format_percentage(low_literacy/len(self.data))})"
+        }
+        
+        # Correlations with other factors
+        correlations = {}
+        
+        if 'annual_income' in self.data.columns:
+            correlation = self.data['financial_literacy_score'].corr(self.data['annual_income'])
+            correlations["Income"] = f"{correlation:.3f} {'(positive)' if correlation > 0 else '(negative)'}"
+        
+        if 'monthly_savings' in self.data.columns:
+            correlation = self.data['financial_literacy_score'].corr(self.data['monthly_savings'])
+            correlations["Savings"] = f"{correlation:.3f} {'(positive)' if correlation > 0 else '(negative)'}"
+        
+        if 'emergency_fund_months' in self.data.columns:
+            correlation = self.data['financial_literacy_score'].corr(self.data['emergency_fund_months'])
+            correlations["Emergency Fund"] = f"{correlation:.3f} {'(positive)' if correlation > 0 else '(negative)'}"
+        
+        analysis["Correlations"] = correlations
+        
+        # Generate insights
+        avg_score = self.data['financial_literacy_score'].mean()
+        if avg_score >= 8:
+            analysis["Insights"].append("High overall financial literacy among respondents")
+        elif avg_score >= 6:
+            analysis["Insights"].append("Moderate financial literacy levels")
+        else:
+            analysis["Insights"].append("Financial education opportunities exist")
+        
+        return analysis
