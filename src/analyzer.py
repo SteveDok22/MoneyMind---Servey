@@ -179,3 +179,51 @@ class FinanceAnalyzer:
                 analysis["Insights"].append("Limited cryptocurrency adoption among respondents")
         
         return analysis
+    
+    def get_fintech_adoption_analysis(self):
+        """
+        Analyze fintech service adoption patterns.
+        
+        Returns:
+            dict: Fintech adoption analysis
+        """
+        if self.data.empty:
+            return {"error": "No data available"}
+        
+        analysis = {
+            "Mobile Banking": {},
+            "Digital Adoption Patterns": {},
+            "Insights": []
+        }
+        
+        # Mobile banking analysis
+        if 'uses_mobile_banking' in self.data.columns:
+            mobile_users = self.data['uses_mobile_banking'].sum()
+            adoption_rate = mobile_users / len(self.data)
+            
+            analysis["Mobile Banking"] = {
+                "Total Users": f"{mobile_users} out of {len(self.data)} respondents",
+                "Adoption Rate": format_percentage(adoption_rate),
+                "Non-Users": f"{len(self.data) - mobile_users} respondents"
+            }
+            
+            # Generate insight
+            if adoption_rate > 0.8:
+                analysis["Insights"].append("Very high mobile banking adoption")
+            elif adoption_rate > 0.6:
+                analysis["Insights"].append("Good mobile banking adoption rate")
+            else:
+                analysis["Insights"].append("Room for improvement in mobile banking adoption")
+        
+        # Combined digital adoption (mobile banking + crypto)
+        if 'uses_mobile_banking' in self.data.columns and 'owns_crypto' in self.data.columns:
+            tech_enthusiasts = self.data[
+                (self.data['uses_mobile_banking'] == True) & 
+                (self.data['owns_crypto'] == True)
+            ]
+            
+            analysis["Digital Adoption Patterns"] = {
+                "Tech Enthusiasts (Both)": f"{len(tech_enthusiasts)} respondents ({format_percentage(len(tech_enthusiasts)/len(self.data))})"
+            }
+        
+        return analysis
