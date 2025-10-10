@@ -293,3 +293,48 @@ class FinanceAnalyzer:
             analysis["Insights"].append("Financial education opportunities exist")
         
         return analysis
+    
+    def get_comprehensive_report(self):
+        """
+        Generate a comprehensive analysis report combining all analyses.
+        
+        Returns:
+            dict: Complete analysis report
+        """
+        report = {
+            "Executive Summary": {},
+            "Key Findings": [],
+            "Detailed Analysis": {}
+        }
+        
+        # Generate all individual analyses
+        spending_analysis = self.get_spending_analysis()
+        savings_analysis = self.get_savings_analysis()
+        investment_analysis = self.get_investment_analysis()
+        fintech_analysis = self.get_fintech_adoption_analysis()
+        literacy_analysis = self.get_financial_literacy_analysis()
+        
+        # Executive summary - the big picture
+        if not self.data.empty:
+            report["Executive Summary"] = {
+                "Total Respondents": len(self.data),
+                "Average Age": f"{self.data['age'].mean():.1f} years" if 'age' in self.data.columns else "N/A",
+                "Average Income": format_currency(self.data['annual_income'].mean()) if 'annual_income' in self.data.columns else "N/A",
+                "Average Monthly Savings": format_currency(self.data['monthly_savings'].mean()) if 'monthly_savings' in self.data.columns else "N/A"
+            }
+        
+        # Collect key findings from all analyses
+        for analysis in [spending_analysis, savings_analysis, investment_analysis, fintech_analysis, literacy_analysis]:
+            if 'Insights' in analysis:
+                report["Key Findings"].extend(analysis["Insights"])
+        
+        # Add detailed analyses
+        report["Detailed Analysis"] = {
+            "Spending Patterns": spending_analysis,
+            "Savings Behavior": savings_analysis,
+            "Investment Preferences": investment_analysis,
+            "Fintech Adoption": fintech_analysis,
+            "Financial Literacy": literacy_analysis
+        }
+        
+        return report
