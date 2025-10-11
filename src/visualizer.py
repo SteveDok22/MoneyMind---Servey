@@ -121,3 +121,86 @@ class DataVisualizer:
         except Exception as e:
             display_error_message(f"Error creating spending charts: {str(e)}")
             return False
+        
+    def create_savings_charts(self, save_path=None):
+        """
+        Create visualizations for savings analysis.
+        
+        Args:
+            save_path (str): Optional path to save charts
+            
+        Returns:
+            bool: True if successful
+        """
+        if self.data.empty or 'monthly_savings' not in self.data.columns:
+            display_error_message("No savings data available")
+            return False
+        
+        try:
+            fig, axes = plt.subplots(2, 2, figsize=(15, 12))
+            fig.suptitle('Personal Finance - Savings Analysis', fontsize=16, fontweight='bold')
+            
+            # Chart 1: Savings distribution (histogram)
+            axes[0, 0].hist(self.data['monthly_savings'], bins=12, alpha=0.7, edgecolor='black', color='green')
+            axes[0, 0].set_title('Distribution of Monthly Savings')
+            axes[0, 0].set_xlabel('Monthly Savings ($)')
+            axes[0, 0].set_ylabel('Number of Respondents')
+            
+            # Chart 2: Savings vs Income (scatter plot)
+            if 'annual_income' in self.data.columns:
+                axes[0, 1].scatter(self.data['annual_income'], self.data['monthly_savings'], alpha=0.6, color='green')
+                axes[0, 1].set_title('Savings vs Annual Income')
+                axes[0, 1].set_xlabel('Annual Income ($)')
+                axes[0, 1].set_ylabel('Monthly Savings ($)')
+                
+                # Add trend line
+                z = np.polyfit(self.data['annual_income'], self.data['monthly_savings'], 1)
+                p = np.poly1d(z)
+                axes[0, 1].plot(self.data['annual_income'], p(self.data['annual_income']), "r--", alpha=0.8)
+            
+            # Chart 3: Savings rate by age groups
+            if 'annual_income' in self.data.columns and 'age' in self.data.columns:
+                monthly_income = self.data['annual_income'] / 12
+                savings_rate = self.data['monthly_savings'] / monthly_income
+                
+                age_groups = pd.cut(self.data['age'], bins=[0, 30, 40, 50, 100], labels=['<30', '30-40', '40-50', '50+'])
+                avg_savings_rate = savings_rate.groupby(age_groups).mean()
+                
+                bars = axes[1, 0].bar(range(len(avg_savings_rate)), avg_savings_rate.values, 
+                                     color='lightgreen', edgecolor='darkgreen')
+                axes[1, 0].set_title('Average Savings Rate by Age Group')
+                axes[1, 0].set_ylabel('Savings Rate')
+                axes[1, 0].set_xticks(range(len(avg_savings_rate)))
+                axes[1, 0].set_xticklabels(avg_savings_rate.index)
+                
+                # Add percentage labels
+                for bar, value in zip(bars, avg_savings_rate.values):
+                    axes[1, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.005, 
+                                   f'{value:.1%}', ha='center', va='bottom')
+            
+            # Chart 4: Emergency fund analysis (pie chart)
+            if 'emergency_fund_months' in self.data.columns:
+                fund_categories = ['<3 months', '3-6 months', '6+ months']
+                fund_counts = [
+                    len(self.data[self.data['emergency_fund_months'] < 3]),
+                    len(self.data[(self.data['emergency_fund_months'] >= 3) & (self.data['emergency_fund_months'] < 6)]),
+                    len(self.data[self.data['emergency_fund_months'] >= 6])
+                ]
+                
+                colors = ['red', 'orange', 'green']
+                axes[1, 1].pie(fund_counts, labels=fund_categories, autopct='%1.1f%%', colors=colors)
+                axes[1, 1].set_title('Emergency Fund Adequacy')
+            
+            plt.tight_layout()
+            
+            if save_path:
+                create_directory_if_not_exists(os.path.dirname(save_path))
+                plt.savefig(save_path, dpi=300, bbox_inches='tight')
+                display_success_message(f"Savings charts saved to {save_path}")
+            
+            plt.show()
+            return True
+            
+        except Exception as e:
+            display_error_message(f"Error creating savings charts: {str(e)}")
+            return False
