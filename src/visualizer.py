@@ -204,3 +204,74 @@ class DataVisualizer:
         except Exception as e:
             display_error_message(f"Error creating savings charts: {str(e)}")
             return False
+        
+    def create_investment_charts(self, save_path=None):
+        """
+        Create visualizations for investment and crypto analysis.
+        
+        Args:
+            save_path (str): Optional path to save charts
+            
+        Returns:
+            bool: True if successful
+        """
+        if self.data.empty:
+            display_error_message("No data available")
+            return False
+        
+        try:
+            fig, axes = plt.subplots(2, 2, figsize=(15, 12))
+            fig.suptitle('Personal Finance - Investment & Cryptocurrency Analysis', fontsize=16, fontweight='bold')
+            
+            # Chart 1: Investment preferences (pie chart)
+            if 'primary_investment' in self.data.columns:
+                investment_counts = self.data['primary_investment'].value_counts()
+                
+                axes[0, 0].pie(investment_counts.values, labels=investment_counts.index, autopct='%1.1f%%')
+                axes[0, 0].set_title('Investment Preferences Distribution')
+            
+            # Chart 2: Crypto ownership (pie chart) - FINTECH KEY METRIC!
+            if 'owns_crypto' in self.data.columns:
+                crypto_counts = self.data['owns_crypto'].value_counts()
+                colors = ['lightcoral', 'lightblue']
+                
+                axes[0, 1].pie(crypto_counts.values, labels=['Owns Crypto', 'No Crypto'], 
+                              autopct='%1.1f%%', colors=colors)
+                axes[0, 1].set_title('Cryptocurrency Ownership')
+            
+            # Chart 3: Investment preference by age (grouped bar chart)
+            if 'primary_investment' in self.data.columns and 'age' in self.data.columns:
+                age_groups = pd.cut(self.data['age'], bins=[0, 30, 40, 50, 100], labels=['<30', '30-40', '40-50', '50+'])
+                investment_age_crosstab = pd.crosstab(age_groups, self.data['primary_investment'])
+                
+                investment_age_crosstab.plot(kind='bar', ax=axes[1, 0], width=0.8)
+                axes[1, 0].set_title('Investment Preferences by Age Group')
+                axes[1, 0].set_xlabel('Age Group')
+                axes[1, 0].set_ylabel('Number of Respondents')
+                axes[1, 0].legend(title='Investment Type', bbox_to_anchor=(1.05, 1), loc='upper left')
+                axes[1, 0].tick_params(axis='x', rotation=45)
+            
+            # Chart 4: Crypto ownership vs Mobile banking
+            if 'owns_crypto' in self.data.columns and 'uses_mobile_banking' in self.data.columns:
+                tech_adoption = pd.crosstab(self.data['uses_mobile_banking'], self.data['owns_crypto'])
+                
+                tech_adoption.plot(kind='bar', ax=axes[1, 1], width=0.6)
+                axes[1, 1].set_title('Technology Adoption Patterns')
+                axes[1, 1].set_xlabel('Uses Mobile Banking')
+                axes[1, 1].set_ylabel('Number of Respondents')
+                axes[1, 1].legend(title='Owns Crypto', labels=['No', 'Yes'])
+                axes[1, 1].tick_params(axis='x', rotation=0)
+            
+            plt.tight_layout()
+            
+            if save_path:
+                create_directory_if_not_exists(os.path.dirname(save_path))
+                plt.savefig(save_path, dpi=300, bbox_inches='tight')
+                display_success_message(f"Investment charts saved to {save_path}")
+            
+            plt.show()
+            return True
+            
+        except Exception as e:
+            display_error_message(f"Error creating investment charts: {str(e)}")
+            return False
