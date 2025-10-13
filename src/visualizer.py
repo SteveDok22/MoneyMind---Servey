@@ -434,3 +434,48 @@ class DataVisualizer:
         except Exception as e:
             display_error_message(f"Error creating dashboard: {str(e)}")
             return False
+        
+    def export_all_charts(self, base_path="exports/charts"):
+        """
+        Export all chart types to files.
+        
+        Args:
+            base_path (str): Base directory for saving charts
+            
+        Returns:
+            bool: True if all exports successful
+        """
+        try:
+            create_directory_if_not_exists(base_path)
+            
+            success_count = 0
+            total_charts = 5
+            
+            print("\n📊 Exporting all visualizations...")
+            
+            # Export individual chart types
+            if self.create_spending_charts(f"{base_path}/spending_analysis.png"):
+                success_count += 1
+            
+            if self.create_savings_charts(f"{base_path}/savings_analysis.png"):
+                success_count += 1
+            
+            if self.create_investment_charts(f"{base_path}/investment_analysis.png"):
+                success_count += 1
+            
+            if self.create_financial_literacy_charts(f"{base_path}/literacy_analysis.png"):
+                success_count += 1
+            
+            if self.create_comprehensive_dashboard(f"{base_path}/comprehensive_dashboard.png"):
+                success_count += 1
+            
+            if success_count == total_charts:
+                display_success_message(f"All {total_charts} chart files exported to {base_path}")
+                return True
+            else:
+                display_error_message(f"Only {success_count}/{total_charts} charts exported successfully")
+                return False
+                
+        except Exception as e:
+            display_error_message(f"Error exporting charts: {str(e)}")
+            return False
