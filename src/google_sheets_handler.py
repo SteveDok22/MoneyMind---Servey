@@ -37,3 +37,34 @@ class GoogleSheetsHandler:
         self.client = None
         self.spreadsheet = None
         self.connected = False
+        
+    def connect(self):
+        """
+        Establish connection to Google Sheets API.
+        
+        Returns:
+            bool: True if connection successful, False otherwise
+        """
+        try:
+            display_loading_message("Connecting to Google Sheets...")
+            
+            # Load credentials from the JSON file
+            creds = Credentials.from_service_account_file(
+                self.credentials_file,
+                scopes=self.SCOPE
+            )
+            
+            # Authorize the client
+            self.client = gspread.authorize(creds)
+            self.connected = True
+            
+            display_success_message("Successfully connected to Google Sheets!")
+            return True
+            
+        except FileNotFoundError:
+            display_error_message(f"Credentials file not found: {self.credentials_file}")
+            display_error_message("Please ensure creds.json is in the project root directory")
+            return False
+        except Exception as e:
+            display_error_message(f"Failed to connect to Google Sheets: {str(e)}")
+            return False
