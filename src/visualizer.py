@@ -296,6 +296,90 @@ class DataVisualizer:
             fig, axes = plt.subplots(2, 2, figsize=(15, 12))
             fig.suptitle('Personal Finance - Financial Literacy Analysis', fontsize=16, fontweight='bold')
             
+            # Chart 1: Score distribution
+            axes[0, 0].hist(self.data['financial_literacy_score'], bins=10, alpha=0.7, 
+                           edgecolor='black', color='purple')
+            axes[0, 0].set_title('Financial Literacy Score Distribution')
+            axes[0, 0].set_xlabel('Literacy Score (1-10)')
+            axes[0, 0].set_ylabel('Number of Respondents')
+            
+            # Chart 2: Literacy vs Income correlation
+            if 'annual_income' in self.data.columns:
+                axes[0, 1].scatter(self.data['financial_literacy_score'], self.data['annual_income'], 
+                                  alpha=0.6, color='purple')
+                axes[0, 1].set_title('Financial Literacy vs Income')
+                axes[0, 1].set_xlabel('Financial Literacy Score')
+                axes[0, 1].set_ylabel('Annual Income ($)')
+                
+                # Add trend line
+                z = np.polyfit(self.data['financial_literacy_score'], self.data['annual_income'], 1)
+                p = np.poly1d(z)
+                axes[0, 1].plot(self.data['financial_literacy_score'], 
+                               p(self.data['financial_literacy_score']), "r--", alpha=0.8)
+            
+            # Chart 3: Literacy by age groups
+            if 'age' in self.data.columns:
+                age_groups = pd.cut(self.data['age'], bins=[0, 30, 40, 50, 100], 
+                                   labels=['<30', '30-40', '40-50', '50+'], observed=True)
+                literacy_by_age = self.data.groupby(age_groups, observed=True)['financial_literacy_score'].mean()
+                
+                bars = axes[1, 0].bar(range(len(literacy_by_age)), literacy_by_age.values, 
+                                     color='mediumpurple', edgecolor='darkviolet')
+                axes[1, 0].set_title('Average Financial Literacy by Age Group')
+                axes[1, 0].set_ylabel('Average Literacy Score')
+                axes[1, 0].set_xticks(range(len(literacy_by_age)))
+                axes[1, 0].set_xticklabels(literacy_by_age.index)
+                
+                # Add score labels
+                for bar, value in zip(bars, literacy_by_age.values):
+                    axes[1, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.05, 
+                                   f'{value:.1f}', ha='center', va='bottom')
+            
+            # Chart 4: Literacy categories
+            high_literacy = len(self.data[self.data['financial_literacy_score'] >= 8])
+            medium_literacy = len(self.data[(self.data['financial_literacy_score'] >= 6) & 
+                                          (self.data['financial_literacy_score'] < 8)])
+            low_literacy = len(self.data[self.data['financial_literacy_score'] < 6])
+            
+            categories = ['Low (<6)', 'Medium (6-7)', 'High (8-10)']
+            counts = [low_literacy, medium_literacy, high_literacy]
+            colors = ['red', 'orange', 'green']
+            
+            axes[1, 1].pie(counts, labels=categories, autopct='%1.1f%%', colors=colors)
+            axes[1, 1].set_title('Financial Literacy Categories')
+            
+            plt.tight_layout()
+            
+            if save_path:
+                create_directory_if_not_exists(os.path.dirname(save_path))
+                plt.savefig(save_path, dpi=300, bbox_inches='tight')
+                display_success_message(f"Financial literacy charts saved to {save_path}")
+            
+            plt.show()
+            return True
+            
+        except Exception as e:
+            display_error_message(f"Error creating financial literacy charts: {str(e)}")
+            return False
+        
+    def create_financial_literacy_charts(self, save_path=None):
+        """
+        Create visualizations for financial literacy analysis.
+        
+        Args:
+            save_path (str): Optional path to save charts
+            
+        Returns:
+            bool: True if successful
+        """
+        if self.data.empty or 'financial_literacy_score' not in self.data.columns:
+            display_error_message("No financial literacy data available")
+            return False
+        
+        try:
+            fig, axes = plt.subplots(2, 2, figsize=(15, 12))
+            fig.suptitle('Personal Finance - Financial Literacy Analysis', fontsize=16, fontweight='bold')
+            
             # Chart 1: Score distribution (histogram)
             axes[0, 0].hist(self.data['financial_literacy_score'], bins=10, alpha=0.7, 
                            edgecolor='black', color='purple')
