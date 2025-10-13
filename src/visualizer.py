@@ -164,8 +164,8 @@ class DataVisualizer:
                 savings_rate = self.data['monthly_savings'] / monthly_income
                 
                 age_groups = pd.cut(self.data['age'], bins=[0, 30, 40, 50, 100], 
-                   labels=['<30', '30-40', '40-50', '50+'], observed=True)
-                avg_savings_rate = savings_rate.groupby(age_groups).mean()
+                   labels=['<30', '30-40', '40-50', '50+'])
+                avg_savings_rate = savings_rate.groupby(age_groups, observed=False).mean()
                 
                 bars = axes[1, 0].bar(range(len(avg_savings_rate)), avg_savings_rate.values, 
                                      color='lightgreen', edgecolor='darkgreen')
@@ -243,7 +243,7 @@ class DataVisualizer:
             # Chart 3: Investment preference by age
             if 'primary_investment' in self.data.columns and 'age' in self.data.columns:
                 age_groups = pd.cut(self.data['age'], bins=[0, 30, 40, 50, 100], 
-                                   labels=['<30', '30-40', '40-50', '50+'], observed=True)
+                                   labels=['<30', '30-40', '40-50', '50+'])
                 investment_age_crosstab = pd.crosstab(age_groups, self.data['primary_investment'])
                 
                 investment_age_crosstab.plot(kind='bar', ax=axes[1, 0], width=0.8)
@@ -320,8 +320,8 @@ class DataVisualizer:
             # Chart 3: Literacy by age groups
             if 'age' in self.data.columns:
                 age_groups = pd.cut(self.data['age'], bins=[0, 30, 40, 50, 100], 
-                                   labels=['<30', '30-40', '40-50', '50+'], observed=True)
-                literacy_by_age = self.data.groupby(age_groups, observed=True)['financial_literacy_score'].mean()
+                                   labels=['<30', '30-40', '40-50', '50+'])
+                literacy_by_age = self.data.groupby(age_groups, observed=False)['financial_literacy_score'].mean()
                 
                 bars = axes[1, 0].bar(range(len(literacy_by_age)), literacy_by_age.values, 
                                      color='mediumpurple', edgecolor='darkviolet')
@@ -404,7 +404,7 @@ class DataVisualizer:
             # Chart 3: Literacy by age groups (bar chart)
             if 'age' in self.data.columns:
                 age_groups = pd.cut(self.data['age'], bins=[0, 30, 40, 50, 100], labels=['<30', '30-40', '40-50', '50+'])
-                literacy_by_age = self.data.groupby(age_groups)['financial_literacy_score'].mean()
+                literacy_by_age = self.data.groupby(age_groups, observed=False)['financial_literacy_score'].mean()
                 
                 bars = axes[1, 0].bar(range(len(literacy_by_age)), literacy_by_age.values, 
                                      color='mediumpurple', edgecolor='darkviolet')
