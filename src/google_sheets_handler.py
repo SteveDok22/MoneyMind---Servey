@@ -69,6 +69,34 @@ class GoogleSheetsHandler:
             display_error_message(f"Failed to connect to Google Sheets: {str(e)}")
             return False
         
+    def open_spreadsheet(self, spreadsheet_name):
+        """
+        Open a Google Spreadsheet by name.
+        
+        Args:
+            spreadsheet_name (str): Name of the spreadsheet
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        if not self.connected:
+            display_error_message("Not connected to Google Sheets. Call connect() first.")
+            return False
+        
+        try:
+            display_loading_message(f"Opening spreadsheet: {spreadsheet_name}...")
+            self.spreadsheet = self.client.open(spreadsheet_name)
+            display_success_message(f"Spreadsheet '{spreadsheet_name}' opened successfully!")
+            return True
+            
+        except gspread.exceptions.SpreadsheetNotFound:
+            display_error_message(f"Spreadsheet '{spreadsheet_name}' not found")
+            display_error_message("Please check the spreadsheet name and sharing permissions")
+            return False
+        except Exception as e:
+            display_error_message(f"Error opening spreadsheet: {str(e)}")
+            return False
+        
     def load_survey_data(self, worksheet_name='survey_data'):
         """
         Load survey data from a Google Sheets worksheet.
@@ -127,3 +155,55 @@ class GoogleSheetsHandler:
         except Exception as e:
             display_error_message(f"Error loading data: {str(e)}")
             return None
+        
+    def save_analysis_results(self, analysis_data, worksheet_name='analysis_results'):
+        """
+        Save analysis results to Google Sheets.
+        
+        Args:
+            analysis_data (dict): Dictionary containing analysis results
+            worksheet_name (str): Name of the worksheet to save results
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        if not self.spreadsheet:
+            display_error_message("No spreadsheet opened. Call open_spreadsheet() first.")
+            return False
+        
+        try:
+            display_loading_message("Saving analysis results to Google Sheets...")
+            
+            # Try to get existing worksheet, create if doesn't exist
+            try:
+                worksheet = self.spreadsheet.worksheet(worksheet_name)
+            except gspread.exceptions.WorksheetNotFound:
+                worksheet = self.spreadsheet.add_worksheet(
+                    title=worksheet_name,
+                    rows=100,
+                    cols=10
+                )
+                # Add headers if new worksheet
+                worksheet.append_row(['Timestamp', 'Analysis Type', 'Total Respondents', 'Key Finding', 'Details'])
+            
+            # Prepare data for insertion
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            # Create row data
+            row_data = [
+                timestamp,
+                analysis_data.get('analysis_type', 'General'),
+                analysis_data.get('total_respondents', 0),
+                analysis_data.get('key_finding', ''),
+                str(analysis_data.get('details', {}))
+            ]
+            
+            # Append the row to the worksheet
+            worksheet.append_row(row_data)
+            
+            display_success_message("Analysis results saved successfully!")
+            return True
+            
+        except Exception as e:
+            display_error_message(f"Error saving results: {str(e)}")
+            return False
