@@ -207,3 +207,41 @@ class GoogleSheetsHandler:
         except Exception as e:
             display_error_message(f"Error saving results: {str(e)}")
             return False
+        
+    def log_user_session(self, username, action, worksheet_name='session_log'):
+        """
+        Log user session activity to Google Sheets.
+        
+        Args:
+            username (str): Name of the user
+            action (str): Action performed
+            worksheet_name (str): Name of the worksheet for logging
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        if not self.spreadsheet:
+            return False
+        
+        try:
+            # Try to get existing worksheet, create if doesn't exist
+            try:
+                worksheet = self.spreadsheet.worksheet(worksheet_name)
+            except gspread.exceptions.WorksheetNotFound:
+                worksheet = self.spreadsheet.add_worksheet(
+                    title=worksheet_name,
+                    rows=1000,
+                    cols=5
+                )
+                # Add headers
+                worksheet.append_row(['Timestamp', 'Username', 'Action', 'Status'])
+            
+            # Log the session
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            worksheet.append_row([timestamp, username, action, 'Success'])
+            
+            return True
+            
+        except Exception as e:
+            # Silent fail for logging - don't interrupt user experience
+            return False
