@@ -309,3 +309,76 @@ class GoogleSheetsHandler:
             return info
         except Exception as e:
             return {"error": str(e)}
+        
+    def get_worksheet_list(self):
+        """
+        Get list of all worksheets in the current spreadsheet.
+        
+        Returns:
+            list: List of worksheet names, or empty list if error
+        """
+        if not self.spreadsheet:
+            return []
+        
+        try:
+            worksheets = self.spreadsheet.worksheets()
+            return [ws.title for ws in worksheets]
+        except Exception as e:
+            display_error_message(f"Error getting worksheet list: {str(e)}")
+            return []
+        
+    def create_sample_spreadsheet(self, spreadsheet_name='PersonalFinanceData'):
+        """
+        Create a new spreadsheet with sample data structure.
+        
+        Args:
+            spreadsheet_name (str): Name for the new spreadsheet
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        if not self.connected:
+            display_error_message("Not connected. Call connect() first.")
+            return False
+        
+        try:
+            display_loading_message("Creating sample spreadsheet...")
+            
+            # Create new spreadsheet
+            spreadsheet = self.client.create(spreadsheet_name)
+            
+            # Get the default worksheet
+            worksheet = spreadsheet.sheet1
+            worksheet.update_title('survey_data')
+            
+            # Add headers
+            headers = [
+                'respondent_id', 'age', 'annual_income', 'monthly_savings',
+                'uses_mobile_banking', 'owns_crypto', 'primary_investment',
+                'monthly_spending_food', 'monthly_spending_transport',
+                'monthly_spending_entertainment', 'financial_literacy_score',
+                'emergency_fund_months'
+            ]
+            
+            worksheet.append_row(headers)
+            
+            # Add sample data rows
+            sample_data = [
+                [1, 25, 45000, 800, 'yes', 'yes', 'stocks', 600, 200, 300, 7, 3],
+                [2, 32, 65000, 1200, 'yes', 'no', 'bonds', 900, 350, 400, 8, 6],
+                [3, 28, 52000, 750, 'no', 'yes', 'crypto', 700, 180, 250, 6, 2]
+            ]
+            
+            for row in sample_data:
+                worksheet.append_row(row)
+            
+            display_success_message(f"Spreadsheet '{spreadsheet_name}' created successfully!")
+            print(f"\n📊 Spreadsheet URL: {spreadsheet.url}")
+            print("⚠️  IMPORTANT: Share this spreadsheet with your service account email!")
+            print(f"   (Check your creds.json for the 'client_email' field)")
+            
+            return True
+            
+        except Exception as e:
+            display_error_message(f"Error creating spreadsheet: {str(e)}")
+            return False
