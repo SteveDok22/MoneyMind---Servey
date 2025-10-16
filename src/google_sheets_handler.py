@@ -287,3 +287,25 @@ class GoogleSheetsHandler:
         except Exception as e:
             display_error_message(f"Error exporting data: {str(e)}")
             return False
+        
+    def get_spreadsheet_info(self):
+        """
+        Get information about the current spreadsheet.
+        
+        Returns:
+            dict: Spreadsheet information
+        """
+        if not self.spreadsheet:
+            return {"error": "No spreadsheet opened"}
+        
+        try:
+            info = {
+                "title": self.spreadsheet.title,
+                "url": self.spreadsheet.url,
+                "id": self.spreadsheet.id,
+                "worksheets": len(self.spreadsheet.worksheets()),
+                "worksheet_names": [ws.title for ws in self.spreadsheet.worksheets()]
+            }
+            return info
+        except Exception as e:
+            return {"error": str(e)}
