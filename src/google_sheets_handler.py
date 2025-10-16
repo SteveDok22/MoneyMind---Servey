@@ -245,3 +245,45 @@ class GoogleSheetsHandler:
         except Exception as e:
             # Silent fail for logging - don't interrupt user experience
             return False
+        
+    def export_dataframe_to_sheets(self, df, worksheet_name='exported_data'):
+        """
+        Export a pandas DataFrame to Google Sheets.
+        
+        Args:
+            df (pd.DataFrame): DataFrame to export
+            worksheet_name (str): Name of the worksheet
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        if not self.spreadsheet:
+            display_error_message("No spreadsheet opened.")
+            return False
+        
+        try:
+            display_loading_message(f"Exporting data to worksheet: {worksheet_name}...")
+            
+            # Try to get existing worksheet, create if doesn't exist
+            try:
+                worksheet = self.spreadsheet.worksheet(worksheet_name)
+                worksheet.clear()  # Clear existing data
+            except gspread.exceptions.WorksheetNotFound:
+                worksheet = self.spreadsheet.add_worksheet(
+                    title=worksheet_name,
+                    rows=len(df) + 10,
+                    cols=len(df.columns) + 2
+                )
+            
+            # Convert DataFrame to list of lists
+            data = [df.columns.tolist()] + df.values.tolist()
+            
+            # Update worksheet
+            worksheet.update('A1', data)
+            
+            display_success_message(f"Data exported to '{worksheet_name}' successfully!")
+            return True
+            
+        except Exception as e:
+            display_error_message(f"Error exporting data: {str(e)}")
+            return False
