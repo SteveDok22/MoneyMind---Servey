@@ -69,3 +69,29 @@ class PersonalFinanceAnalyzer:
         print("12. View Google Sheets Info")
         print("13. Exit Application")
         print("=" * 50)
+        
+    def handle_menu_choice(self, choice):
+        """Handle user menu selection."""
+        actions = {
+            '1': self.load_local_data,
+            '2': self.connect_google_sheets,
+            '3': self.load_google_sheets_data,
+            '4': self.view_data_summary,
+            '5': self.analyze_spending_patterns,
+            '6': self.compare_income_savings,
+            '7': self.analyze_crypto_investments,
+            '8': self.analyze_financial_literacy,
+            '9': self.generate_complete_report,
+            '10': self.export_results,
+            '11': self.save_to_google_sheets,
+            '12': self.view_sheets_info,
+            '13': lambda: False
+        }
+        
+        action = actions.get(choice)
+        if action:
+            return action() if choice != '13' else False
+        else:
+            print("\n❌ Invalid choice. Please select a number from 1-13.")
+            input("Press Enter to continue...")
+            return True
