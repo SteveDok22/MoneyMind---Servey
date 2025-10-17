@@ -45,3 +45,27 @@ class PersonalFinanceAnalyzer:
             self.username = "Guest"
         print(f"\nWelcome, {self.username}!")
         input("\nPress Enter to continue...")
+        
+    def display_menu(self):
+        """Display the main menu options."""
+        print("\n" + "=" * 50)
+        print("           MAIN MENU")
+        print("=" * 50)
+        print("📂 DATA SOURCES:")
+        print("1. Load Local CSV Data")
+        print("2. Connect to Google Sheets")
+        print("3. Load Data from Google Sheets")
+        print("\n📊 ANALYSIS:")
+        print("4. View Data Summary")
+        print("5. Analyze Spending Patterns")
+        print("6. Compare Income vs Savings")
+        print("7. Cryptocurrency & Investment Analysis")
+        print("8. Financial Literacy Insights")
+        print("9. Generate Complete Report")
+        print("\n💾 EXPORT:")
+        print("10. Export Analysis Results")
+        print("11. Save Results to Google Sheets")
+        print("\n🔧 OPTIONS:")
+        print("12. View Google Sheets Info")
+        print("13. Exit Application")
+        print("=" * 50)
