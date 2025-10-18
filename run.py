@@ -127,3 +127,82 @@ class PersonalFinanceAnalyzer:
             
         input("\nPress Enter to continue...")
         return True
+    
+    def connect_google_sheets(self):
+        """Connect to Google Sheets API."""
+        print("\n" + "-" * 50)
+        print("CONNECTING TO GOOGLE SHEETS")
+        print("-" * 50)
+        
+        try:
+            self.sheets_handler = GoogleSheetsHandler()
+            success = self.sheets_handler.connect()
+            
+            if success:
+                self.sheets_connected = True
+                print("\n📝 Next step: Use option 3 to load data from a spreadsheet")
+                self.sheets_handler.log_user_session(
+                    self.username, 
+                    "Connected to Google Sheets"
+                )
+            else:
+                print("\n❌ Connection failed. Please check:")
+                print("  1. creds.json file exists in project root")
+                print("  2. Service account has necessary permissions")
+                print("  3. Google Sheets API is enabled")
+                print("\n💡 TIP: The app works perfectly without Google Sheets!")
+                print("   Use Option 1 to load local CSV data instead.")
+                
+        except Exception as e:
+            print(f"❌ Error: {str(e)}")
+            
+        input("\nPress Enter to continue...")
+        return True
+    
+    def load_google_sheets_data(self):
+        """Load data from Google Sheets."""
+        if not self.sheets_connected:
+            print("\n❌ Please connect to Google Sheets first (Option 2)")
+            print("💡 Or use Option 1 to load local CSV data")
+            input("Press Enter to continue...")
+            return True
+        
+        print("\n" + "-" * 50)
+        print("LOADING DATA FROM GOOGLE SHEETS")
+        print("-" * 50)
+        
+        try:
+            spreadsheet_name = input("\nEnter spreadsheet name: ").strip()
+            if not spreadsheet_name:
+                print("❌ Spreadsheet name cannot be empty")
+                input("Press Enter to continue...")
+                return True
+            
+            if self.sheets_handler.open_spreadsheet(spreadsheet_name):
+                worksheet_name = input("Enter worksheet name (default: survey_data): ").strip()
+                if not worksheet_name:
+                    worksheet_name = 'survey_data'
+                
+                data = self.sheets_handler.load_survey_data(worksheet_name)
+                
+                if data is not None:
+                    self.data_handler = DataHandler()
+                    self.data_handler.data = data
+                    self.data_handler.original_data = data.copy()
+                    self.analyzer = FinanceAnalyzer(data)
+                    self.visualizer = DataVisualizer(data)
+                    self.data_loaded = True
+                    
+                    print(f"\n✅ Loaded {len(data)} records from Google Sheets!")
+                    
+                    # Log session
+                    self.sheets_handler.log_user_session(
+                        self.username, 
+                        f"Loaded data from {spreadsheet_name}/{worksheet_name}"
+                    )
+                    
+        except Exception as e:
+            print(f"❌ Error: {str(e)}")
+            
+        input("\nPress Enter to continue...")
+        return True
