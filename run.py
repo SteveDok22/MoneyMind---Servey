@@ -206,3 +206,96 @@ class PersonalFinanceAnalyzer:
             
         input("\nPress Enter to continue...")
         return True
+    
+    def view_data_summary(self):
+        """Display basic data summary."""
+        if not self.data_loaded:
+            print("\n❌ Please load data first (Option 1 or 3)")
+            input("Press Enter to continue...")
+            return True
+            
+        print("\n" + "-" * 50)
+        print("DATA SUMMARY")
+        print("-" * 50)
+        
+        summary = self.data_handler.get_data_summary()
+        
+        for section, data in summary.items():
+            print(f"\n{section}:")
+            for key, value in data.items():
+                print(f"  {key}: {value}")
+        
+        input("\nPress Enter to continue...")
+        return True
+        
+    def analyze_spending_patterns(self):
+        """Analyze spending patterns across categories."""
+        if not self.data_loaded:
+            print("\n❌ Please load data first (Option 1 or 3)")
+            input("Press Enter to continue...")
+            return True
+            
+        print("\n" + "-" * 50)
+        print("SPENDING PATTERNS ANALYSIS")
+        print("-" * 50)
+        
+        analysis = self.analyzer.get_spending_analysis()
+        
+        # Display overview
+        if "Spending Overview" in analysis:
+            print("\n📊 Spending Overview:")
+            for key, value in analysis["Spending Overview"].items():
+                print(f"  {key}: {value}")
+        
+        # Display insights
+        if "Insights" in analysis:
+            print("\n💡 Key Insights:")
+            for insight in analysis["Insights"]:
+                print(f"  • {insight}")
+        
+        # Ask if user wants visualization
+        show_viz = input("\n📈 Would you like to see spending charts? (yes/no): ").strip().lower()
+        if show_viz in ['yes', 'y']:
+            self.visualizer.create_spending_charts()
+        
+        input("\nPress Enter to continue...")
+        return True
+        
+    def compare_income_savings(self):
+        """Compare income vs savings analysis."""
+        if not self.data_loaded:
+            print("\n❌ Please load data first (Option 1 or 3)")
+            input("Press Enter to continue...")
+            return True
+            
+        print("\n" + "-" * 50)
+        print("INCOME VS SAVINGS ANALYSIS")
+        print("-" * 50)
+        
+        analysis = self.analyzer.get_savings_analysis()
+        
+        # Display savings overview
+        if "Savings Overview" in analysis:
+            print("\n💰 Savings Overview:")
+            for key, value in analysis["Savings Overview"].items():
+                print(f"  {key}: {value}")
+        
+        # Display savings rate
+        if "Savings Rate Analysis" in analysis:
+            print("\n📊 Savings Rate Analysis:")
+            for key, value in analysis["Savings Rate Analysis"].items():
+                print(f"  {key}: {value}")
+        
+        # Display insights
+        if "Insights" in analysis:
+            print("\n💡 Key Insights:")
+            for insight in analysis["Insights"]:
+                print(f"  • {insight}")
+        
+        # Ask if user wants visualization
+        show_viz = input("\n📈 Would you like to see savings charts? (yes/no): ").strip().lower()
+        if show_viz in ['yes', 'y']:
+            self.visualizer.create_savings_charts()
+        
+        input("\nPress Enter to continue...")
+        return True
