@@ -299,3 +299,42 @@ class PersonalFinanceAnalyzer:
         
         input("\nPress Enter to continue...")
         return True
+    
+    def analyze_crypto_investments(self):
+        """Analyze cryptocurrency and investment preferences."""
+        if not self.data_loaded:
+            print("\n❌ Please load data first (Option 1 or 3)")
+            input("Press Enter to continue...")
+            return True
+            
+        print("\n" + "-" * 50)
+        print("CRYPTOCURRENCY & INVESTMENT ANALYSIS")
+        print("-" * 50)
+        
+        analysis = self.analyzer.get_investment_analysis()
+        
+        # Display investment preferences
+        if "Investment Preferences" in analysis and "Distribution" in analysis["Investment Preferences"]:
+            print("\n📈 Investment Preferences:")
+            for inv_type, count in analysis["Investment Preferences"]["Distribution"].items():
+                print(f"  {inv_type}: {count}")
+        
+        # Display crypto analysis - THE FINTECH FOCUS!
+        if "Cryptocurrency Analysis" in analysis:
+            print("\n🪙 Cryptocurrency Analysis:")
+            for key, value in analysis["Cryptocurrency Analysis"].items():
+                print(f"  {key}: {value}")
+        
+        # Display insights
+        if "Insights" in analysis:
+            print("\n💡 Key Insights:")
+            for insight in analysis["Insights"]:
+                print(f"  • {insight}")
+        
+        # Ask if user wants visualization
+        show_viz = input("\n📈 Would you like to see investment charts? (yes/no): ").strip().lower()
+        if show_viz in ['yes', 'y']:
+            self.visualizer.create_investment_charts()
+        
+        input("\nPress Enter to continue...")
+        return True
