@@ -95,3 +95,35 @@ class PersonalFinanceAnalyzer:
             print("\n❌ Invalid choice. Please select a number from 1-13.")
             input("Press Enter to continue...")
             return True
+        
+    def load_local_data(self):
+        """Load survey data from local CSV file."""
+        print("\n" + "-" * 50)
+        print("LOADING LOCAL CSV DATA")
+        print("-" * 50)
+        
+        try:
+            self.data_handler = DataHandler()
+            success = self.data_handler.load_csv('data/sample_survey.csv')
+            
+            if success:
+                self.analyzer = FinanceAnalyzer(self.data_handler.data)
+                self.visualizer = DataVisualizer(self.data_handler.data)
+                self.data_loaded = True
+                print("✅ Data loaded successfully!")
+                print(f"📊 Dataset contains {len(self.data_handler.data)} responses")
+                
+                # Log session if connected to Google Sheets
+                if self.sheets_connected and self.sheets_handler:
+                    self.sheets_handler.log_user_session(
+                        self.username, 
+                        "Loaded local CSV data"
+                    )
+            else:
+                print("❌ Failed to load data. Please check the file path.")
+                
+        except Exception as e:
+            print(f"❌ Error loading data: {str(e)}")
+            
+        input("\nPress Enter to continue...")
+        return True
