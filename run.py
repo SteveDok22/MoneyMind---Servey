@@ -429,3 +429,42 @@ class PersonalFinanceAnalyzer:
         
         input("\nPress Enter to continue...")
         return True
+    
+    def export_results(self):
+        """Export analysis results to files."""
+        if not self.data_loaded:
+            print("\n❌ Please load data first (Option 1 or 3)")
+            input("Press Enter to continue...")
+            return True
+            
+        print("\n" + "-" * 50)
+        print("EXPORTING RESULTS")
+        print("-" * 50)
+        
+        print("\nExport Options:")
+        print("1. Export charts (PNG)")
+        print("2. Export cleaned data (CSV)")
+        print("3. Export both")
+        
+        choice = input("\nSelect export option (1-3): ").strip()
+        
+        if choice == '1' or choice == '3':
+            print("\n📊 Exporting charts...")
+            self.visualizer.export_all_charts()
+        
+        if choice == '2' or choice == '3':
+            print("\n💾 Exporting cleaned data...")
+            self.data_handler.export_cleaned_data('exports/data/cleaned_data.csv')
+        
+        if choice not in ['1', '2', '3']:
+            print("❌ Invalid choice. Please select 1, 2, or 3.")
+        
+        # Log session if connected
+        if self.sheets_connected and self.sheets_handler:
+            self.sheets_handler.log_user_session(
+                self.username, 
+                "Exported analysis results"
+            )
+        
+        input("\nPress Enter to continue...")
+        return True
