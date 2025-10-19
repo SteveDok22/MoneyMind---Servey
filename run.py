@@ -338,3 +338,48 @@ class PersonalFinanceAnalyzer:
         
         input("\nPress Enter to continue...")
         return True
+    
+    def analyze_financial_literacy(self):
+        """Analyze financial literacy scores and correlations."""
+        if not self.data_loaded:
+            print("\n❌ Please load data first (Option 1 or 3)")
+            input("Press Enter to continue...")
+            return True
+            
+        print("\n" + "-" * 50)
+        print("FINANCIAL LITERACY INSIGHTS")
+        print("-" * 50)
+        
+        analysis = self.analyzer.get_financial_literacy_analysis()
+        
+        # Display literacy overview
+        if "Literacy Overview" in analysis:
+            print("\n🎓 Literacy Overview:")
+            for key, value in analysis["Literacy Overview"].items():
+                print(f"  {key}: {value}")
+        
+        # Display score distribution
+        if "Score Distribution" in analysis:
+            print("\n📊 Score Distribution:")
+            for key, value in analysis["Score Distribution"].items():
+                print(f"  {key}: {value}")
+        
+        # Display correlations
+        if "Correlations" in analysis:
+            print("\n🔗 Correlations with Other Factors:")
+            for key, value in analysis["Correlations"].items():
+                print(f"  Literacy vs {key}: {value}")
+        
+        # Display insights
+        if "Insights" in analysis:
+            print("\n💡 Key Insights:")
+            for insight in analysis["Insights"]:
+                print(f"  • {insight}")
+        
+        # Ask if user wants visualization
+        show_viz = input("\n📈 Would you like to see literacy charts? (yes/no): ").strip().lower()
+        if show_viz in ['yes', 'y']:
+            self.visualizer.create_financial_literacy_charts()
+        
+        input("\nPress Enter to continue...")
+        return True
