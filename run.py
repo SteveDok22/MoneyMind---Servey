@@ -383,3 +383,49 @@ class PersonalFinanceAnalyzer:
         
         input("\nPress Enter to continue...")
         return True
+    
+    def generate_complete_report(self):
+        """Generate a complete analysis report."""
+        if not self.data_loaded:
+            print("\n❌ Please load data first (Option 1 or 3)")
+            input("Press Enter to continue...")
+            return True
+            
+        print("\n" + "-" * 50)
+        print("GENERATING COMPLETE REPORT")
+        print("-" * 50)
+        
+        report = self.analyzer.get_comprehensive_report()
+        
+        # Display executive summary
+        print("\n" + "=" * 50)
+        print("EXECUTIVE SUMMARY")
+        print("=" * 50)
+        for key, value in report["Executive Summary"].items():
+            print(f"{key}: {value}")
+        
+        # Display all key findings
+        print("\n" + "=" * 50)
+        print("KEY FINDINGS")
+        print("=" * 50)
+        for i, finding in enumerate(report["Key Findings"], 1):
+            print(f"{i}. {finding}")
+        
+        # Ask if user wants detailed breakdown
+        show_detail = input("\n📄 Would you like to see detailed analysis sections? (yes/no): ").strip().lower()
+        if show_detail in ['yes', 'y']:
+            for section_name, section_data in report["Detailed Analysis"].items():
+                print("\n" + "-" * 50)
+                print(section_name.upper())
+                print("-" * 50)
+                if isinstance(section_data, dict) and "Insights" in section_data:
+                    for insight in section_data["Insights"]:
+                        print(f"  • {insight}")
+        
+        # Ask if user wants comprehensive dashboard
+        show_dash = input("\n📊 Would you like to see the comprehensive dashboard? (yes/no): ").strip().lower()
+        if show_dash in ['yes', 'y']:
+            self.visualizer.create_comprehensive_dashboard()
+        
+        input("\nPress Enter to continue...")
+        return True
