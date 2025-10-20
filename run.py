@@ -528,3 +528,30 @@ class PersonalFinanceAnalyzer:
         
         input("\nPress Enter to continue...")
         return True
+    
+    def view_sheets_info(self):
+        """View Google Sheets connection information."""
+        print("\n" + "-" * 50)
+        print("GOOGLE SHEETS INFORMATION")
+        print("-" * 50)
+        
+        if not self.sheets_connected:
+            print("\n❌ Not connected to Google Sheets")
+            print("💡 Use Option 2 to connect")
+            print("\nNote: Google Sheets is optional!")
+            print("The app works perfectly with local CSV files (Option 1)")
+        else:
+            info = self.sheets_handler.get_spreadsheet_info()
+            
+            if 'error' in info:
+                print(f"\n❌ Error: {info['error']}")
+            else:
+                print(f"\n📊 Spreadsheet: {info.get('title', 'N/A')}")
+                print(f"🔗 URL: {info.get('url', 'N/A')}")
+                print(f"📑 Total Worksheets: {info.get('worksheets', 0)}")
+                print(f"\n📄 Worksheet Names:")
+                for name in info.get('worksheet_names', []):
+                    print(f"  • {name}")
+        
+        input("\nPress Enter to continue...")
+        return True
