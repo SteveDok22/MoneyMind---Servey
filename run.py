@@ -556,6 +556,36 @@ class PersonalFinanceAnalyzer:
         input("\nPress Enter to continue...")
         return True
     
+    def run(self):
+        """Main application loop."""
+        self.display_welcome()
+        
+        while True:
+            self.display_menu()
+            choice = input("\nEnter your choice (1-13): ").strip()
+            
+            if not validate_choice(choice, 1, 13):
+                print("\n❌ Invalid choice. Please enter a number between 1 and 13.")
+                input("Press Enter to continue...")
+                continue
+                
+            continue_app = self.handle_menu_choice(choice)
+            
+            if not continue_app:
+                print("\n" + "=" * 60)
+                print(f"Thank you for using Personal Finance Survey Analyzer, {self.username}!")
+                print("=" * 60)
+                
+                # Close Google Sheets connection if active
+                if self.sheets_connected and self.sheets_handler:
+                    self.sheets_handler.log_user_session(
+                        self.username, 
+                        "Exited application"
+                    )
+                    self.sheets_handler.close_connection()
+                
+                break
+    
     def main():
     """Application entry point."""
     try:
