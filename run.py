@@ -468,3 +468,63 @@ class PersonalFinanceAnalyzer:
         
         input("\nPress Enter to continue...")
         return True
+    
+    def save_to_google_sheets(self):
+        """Save analysis results to Google Sheets."""
+        if not self.sheets_connected:
+            print("\n❌ Please connect to Google Sheets first (Option 2)")
+            print("💡 Or use Option 10 to export locally")
+            input("Press Enter to continue...")
+            return True
+        
+        if not self.data_loaded:
+            print("\n❌ Please load data first (Option 1 or 3)")
+            input("Press Enter to continue...")
+            return True
+        
+        print("\n" + "-" * 50)
+        print("SAVING TO GOOGLE SHEETS")
+        print("-" * 50)
+        
+        print("\nWhat would you like to save?")
+        print("1. Analysis summary")
+        print("2. Cleaned data")
+        print("3. Both")
+        
+        choice = input("\nSelect option (1-3): ").strip()
+        
+        try:
+            if choice == '1' or choice == '3':
+                # Get comprehensive analysis
+                report = self.analyzer.get_comprehensive_report()
+                
+                # Prepare analysis data
+                analysis_data = {
+                    'analysis_type': 'Comprehensive Report',
+                    'total_respondents': len(self.data_handler.data),
+                    'key_finding': ', '.join(report.get('Key Findings', [])[:2]),
+                    'details': report.get('Executive Summary', {})
+                }
+                
+                self.sheets_handler.save_analysis_results(analysis_data)
+            
+            if choice == '2' or choice == '3':
+                self.sheets_handler.export_dataframe_to_sheets(
+                    self.data_handler.data,
+                    'cleaned_survey_data'
+                )
+            
+            if choice not in ['1', '2', '3']:
+                print("❌ Invalid choice. Please select 1, 2, or 3.")
+            
+            # Log session
+            self.sheets_handler.log_user_session(
+                self.username, 
+                "Saved results to Google Sheets"
+            )
+            
+        except Exception as e:
+            print(f"❌ Error: {str(e)}")
+        
+        input("\nPress Enter to continue...")
+        return True
