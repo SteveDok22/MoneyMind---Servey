@@ -555,3 +555,19 @@ class PersonalFinanceAnalyzer:
         
         input("\nPress Enter to continue...")
         return True
+    
+    def main():
+    """Application entry point."""
+    try:
+        app = PersonalFinanceAnalyzer()
+        app.run()
+    except KeyboardInterrupt:
+        print("\n\nApplication terminated by user.")
+        sys.exit(0)
+    except Exception as e:
+        print(f"\nAn unexpected error occurred: {str(e)}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
