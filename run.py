@@ -586,7 +586,7 @@ class PersonalFinanceAnalyzer:
                 
                 break
     
-    def main():
+def main():  
     """Application entry point."""
     try:
         app = PersonalFinanceAnalyzer()
@@ -599,5 +599,5 @@ class PersonalFinanceAnalyzer:
         sys.exit(1)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  
     main()
