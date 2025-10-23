@@ -12,10 +12,9 @@ import sys
 def clear_screen():
     """Clear the terminal screen for better user experience."""
     os.system('cls' if os.name == 'nt' else 'clear')
-    
-    def validate_choice(choice, min_val, max_val):
-  
-     """
+
+def validate_choice(choice, min_val, max_val):
+    """
     Validate user menu choice.
     
     Args:
@@ -31,7 +30,6 @@ def clear_screen():
         return min_val <= choice_int <= max_val
     except ValueError:
         return False
-
 
 def validate_yes_no(user_input):
     """
