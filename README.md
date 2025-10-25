@@ -23,11 +23,13 @@ A Python-based command-line application for analyzing personal finance survey da
 - [Introduction](#introduction)
 - [Project Goals](#project-goals)
 - [User Experience (UX)](#user-experience-ux)
+- [Code Architecture](#code-architecture)
 - [Features](#features)
 - [Data Structure](#data-structure)
 - [Technologies Used](#technologies-used)
 - [Installation & Setup](#installation--setup)
 - [Usage Guide](#usage-guide)
+- [Sample Output Examples](#sample-output-examples)
 - [Testing](#testing)
 - [Code Validation](#code-validation)
 - [Deployment](#deployment)
@@ -90,6 +92,57 @@ A Python-based command-line application for analyzing personal finance survey da
 
 ## User Experience (UX)
 
+### Application Flowchart
+
+<div align="center">
+
+![Application Flowchart](documentation/images/flowchart.png)
+
+*Application logic flow and decision tree*
+
+</div>
+
+**Flowchart Description:**
+````
+┌─────────────────────────────────────────┐
+│      START APPLICATION                  │
+│      Display Welcome Screen             │
+│      Request User Name                  │
+└──────────────┬──────────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────────┐
+│      MAIN MENU (13 Options)             │
+└──────────────┬──────────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+   DATA LOADING    ANALYSIS
+   (Options 1-3)   (Options 4-9)
+       │               │
+       ├─ Local CSV    ├─ Spending
+       ├─ Connect GS   ├─ Savings
+       └─ Load GS      ├─ Crypto
+                       ├─ Literacy
+                       └─ Report
+                           │
+                           ▼
+                   ┌───────────────┐
+                   │  EXPORT       │
+                   │  (Options 10-11)│
+                   └───────────────┘
+                           │
+                           ▼
+                       [EXIT]
+````
+
+**Key Decision Points:**
+1. **Data Source Selection:** Local CSV vs Google Sheets
+2. **Analysis Type:** Quick summary vs comprehensive report
+3. **Visualization:** Display now vs export for later
+4. **Export Destination:** Local files vs cloud storage
+
 ### Target Users
 
 **Primary User Personas:**
@@ -142,6 +195,116 @@ A Python-based command-line application for analyzing personal finance survey da
 - **Why:** Privacy concerns, offline capability, flexibility
 - **Implementation:** Fully functional with local CSV files, Google Sheets as enhancement
 
+---
+
+## Code Architecture
+
+### Module Overview
+````
+src/
+├── __init__.py              (10 lines)   - Package initialization
+├── utils.py                 (200 lines)  - Helper functions
+│   ├── clear_screen()                    - Terminal management
+│   ├── validate_choice()                 - Input validation
+│   ├── format_currency()                 - Money formatting
+│   ├── format_percentage()               - Percent formatting
+│   ├── display_*_message()               - User feedback
+│   └── create_directory_if_not_exists()  - File operations
+│
+├── data_handler.py          (250 lines)  - Data management
+│   ├── DataHandler class
+│   ├── load_csv()                        - CSV loading
+│   ├── _validate_data_structure()        - Column validation
+│   ├── _clean_data()                     - Type conversion
+│   ├── get_data_summary()                - Overview stats
+│   ├── filter_data()                     - Data filtering
+│   └── export_cleaned_data()             - CSV export
+│
+├── analyzer.py              (400 lines)  - Financial analysis
+│   ├── FinanceAnalyzer class
+│   ├── get_spending_analysis()           - Spending patterns
+│   ├── get_savings_analysis()            - Savings behavior
+│   ├── get_investment_analysis()         - Investment & crypto
+│   ├── get_fintech_adoption_analysis()   - Tech adoption
+│   ├── get_financial_literacy_analysis() - Knowledge assessment
+│   └── get_comprehensive_report()        - Complete report
+│
+├── visualizer.py            (450 lines)  - Chart generation
+│   ├── DataVisualizer class
+│   ├── create_spending_charts()          - 4-panel spending
+│   ├── create_savings_charts()           - 4-panel savings
+│   ├── create_investment_charts()        - 4-panel investment
+│   ├── create_financial_literacy_charts() - 4-panel literacy
+│   ├── create_comprehensive_dashboard()  - Full dashboard
+│   └── export_all_charts()               - Batch export
+│
+└── google_sheets_handler.py (350 lines)  - Cloud integration
+    ├── GoogleSheetsHandler class
+    ├── connect()                         - API authentication
+    ├── open_spreadsheet()                - Access spreadsheet
+    ├── load_survey_data()                - Load from cloud
+    ├── save_analysis_results()           - Save to cloud
+    ├── export_dataframe_to_sheets()      - Upload DataFrame
+    └── log_user_session()                - Activity tracking
+
+run.py                       (500 lines)  - Main application
+├── PersonalFinanceAnalyzer class
+├── display_welcome()                     - Welcome screen
+├── display_menu()                        - 13-option menu
+├── handle_menu_choice()                  - Routing logic
+├── load_local_data()                     - Option 1
+├── connect_google_sheets()               - Option 2
+├── load_google_sheets_data()             - Option 3
+├── view_data_summary()                   - Option 4
+├── analyze_spending_patterns()           - Option 5
+├── compare_income_savings()              - Option 6
+├── analyze_crypto_investments()          - Option 7
+├── analyze_financial_literacy()          - Option 8
+├── generate_complete_report()            - Option 9
+├── export_results()                      - Option 10
+├── save_to_google_sheets()               - Option 11
+├── view_sheets_info()                    - Option 12
+└── run()                                 - Main loop
+
+Total: 2,160 lines of production code
+````
+
+### Class Relationships
+````
+PersonalFinanceAnalyzer (run.py)
+    │
+    ├──> DataHandler (data_handler.py)
+    │       └──> loads & validates data
+    │
+    ├──> FinanceAnalyzer (analyzer.py)
+    │       └──> performs statistical analysis
+    │
+    ├──> DataVisualizer (visualizer.py)
+    │       └──> creates charts & dashboards
+    │
+    └──> GoogleSheetsHandler (google_sheets_handler.py)
+            └──> manages cloud operations
+````
+
+### Data Flow
+````
+CSV File / Google Sheets
+         ↓
+   DataHandler
+   (load & clean)
+         ↓
+   pandas DataFrame
+         ↓
+    ┌────┴────┐
+    ↓         ↓
+Analyzer  Visualizer
+    ↓         ↓
+ Stats    Charts
+    ↓         ↓
+    └────┬────┘
+         ↓
+  Export / Display
+````
 ---
 
 ## Features
@@ -319,41 +482,46 @@ respondent_id,age,annual_income,monthly_savings,uses_mobile_banking,owns_crypto,
 
 ### Core Python Libraries
 
-#### pandas (v2.0.3) - Data Analysis
-- **License:** BSD 3-Clause License
-- **Official Docs:** [pandas.pydata.org](https://pandas.pydata.org/)
-- **Purpose:** DataFrame operations, CSV loading, statistical analysis
-- **Why Essential:** Industry standard for data manipulation in Python; provides robust structures for handling survey data with built-in statistical functions
+#### pandas (v2.0.3)
+**Purpose:** Data manipulation and analysis  
+**Key Functions Used:**
+- `pd.read_csv()` - Load CSV files (src/data_handler.py, line 48)
+- `pd.to_numeric()` - Type conversion (src/data_handler.py, line 100)
+- `DataFrame.groupby()` - Group analysis (src/analyzer.py, line 148)
+- `DataFrame.corr()` - Correlation calculations (src/analyzer.py, line 287)
 
-#### matplotlib (v3.7.2) - Visualization
-- **License:** PSF-based License
-- **Official Docs:** [matplotlib.org](https://matplotlib.org/)
-- **Purpose:** Chart generation, subplots, figure export
-- **Why Essential:** Most widely-used Python plotting library; offers fine-grained control over every chart element; publication-quality output
+#### matplotlib (v3.7.2)
+**Purpose:** Chart generation and visualization  
+**Key Functions Used:**
+- `plt.subplots()` - Create multi-panel charts (src/visualizer.py, line 37)
+- `plt.savefig()` - Export high-quality PNG (src/visualizer.py, line 92)
+- `axes.pie()` - Pie charts (src/visualizer.py, line 50)
+- `axes.bar()` - Bar charts (src/visualizer.py, line 62)
+- `axes.scatter()` - Scatter plots (src/visualizer.py, line 82)
 
-#### seaborn (v0.12.2) - Statistical Visualization
-- **License:** BSD 3-Clause License
-- **Official Docs:** [seaborn.pydata.org](https://seaborn.pydata.org/)
-- **Purpose:** Enhanced styling, color palettes, statistical plots
-- **Why Essential:** Built on matplotlib but with better defaults; simplifies complex visualizations; professional aesthetics out-of-the-box
+#### seaborn (v0.12.2)
+**Purpose:** Enhanced styling and color palettes  
+**Key Functions Used:**
+- `sns.set_palette()` - Color schemes (src/visualizer.py, line 27)
+- `sns.color_palette()` - Dynamic colors (src/visualizer.py, line 61)
 
-#### numpy (v1.24.3) - Numerical Computing
-- **License:** BSD License
-- **Official Docs:** [numpy.org](https://numpy.org/)
-- **Purpose:** Mathematical operations, trend line calculations, array operations
-- **Why Essential:** Foundation for pandas and matplotlib; optimized C implementations for speed; necessary for polyfit trend lines
+#### numpy (v1.24.3)
+**Purpose:** Numerical operations and trend lines  
+**Key Functions Used:**
+- `np.polyfit()` - Trend line calculations (src/visualizer.py, line 84)
+- `np.poly1d()` - Polynomial functions (src/visualizer.py, line 85)
 
-#### gspread (v5.10.0) - Google Sheets API
-- **License:** MIT License
-- **Official Docs:** [docs.gspread.org](https://docs.gspread.org/)
-- **Purpose:** Read/write Google Sheets, worksheet management
-- **Why Essential:** Simplifies Google Sheets API interaction; provides Pythonic interface; handles authentication complexities
+#### gspread (v5.10.0)
+**Purpose:** Google Sheets API integration  
+**Key Functions Used:**
+- `client.open()` - Open spreadsheet (src/google_sheets_handler.py, line 76)
+- `worksheet.get_all_values()` - Load data (src/google_sheets_handler.py, line 108)
+- `worksheet.append_row()` - Save results (src/google_sheets_handler.py, line 168)
 
-#### google-auth (v2.22.0) - Google Authentication
-- **License:** Apache License 2.0
-- **Official Docs:** [google-auth.readthedocs.io](https://google-auth.readthedocs.io/)
-- **Purpose:** Service account authentication, OAuth2 credentials
-- **Why Essential:** Required for secure Google API access; manages token refresh; implements security best practices
+#### google-auth (v2.22.0)
+**Purpose:** Google Cloud authentication  
+**Key Functions Used:**
+- `Credentials.from_service_account_file()` - Auth setup (src/google_sheets_handler.py, line 42)
 
 ### Development Tools
 
@@ -1233,6 +1401,109 @@ Goodbye!
 
 **Time:** ~15 minutes  
 **Best For:** Academic research, formal reports
+
+---
+
+## Sample Output Examples
+
+### Terminal Interface
+
+<div align="center">
+
+![Welcome Screen](documentation/images/welcome-screen.png)
+*Welcome screen with user name prompt*
+
+![Main Menu](documentation/images/main-menu.png)
+*13-option interactive menu*
+
+![Data Summary](documentation/images/data-summary-output.png)
+*Sample data summary output*
+
+</div>
+
+### Analysis Output Examples
+
+**Spending Analysis:**
+<div align="center">
+
+![Spending Output](documentation/images/spending-analysis-output.png)
+*Terminal output showing spending patterns*
+
+</div>
+
+**Cryptocurrency Analysis:**
+<div align="center">
+
+![Crypto Output](documentation/images/crypto-analysis-output.png)
+*FinTech-focused cryptocurrency adoption metrics*
+
+</div>
+
+### Visualization Examples
+
+**Chart Collection:**
+
+| Chart Type | Preview | Description |
+|------------|---------|-------------|
+| **Spending Distribution** | ![Spending Chart](documentation/images/chart-spending.png) | 4-panel analysis with pie, bar, scatter, and histogram |
+| **Savings Analysis** | ![Savings Chart](documentation/images/chart-savings.png) | Savings vs income with trend lines |
+| **Crypto Adoption** | ![Crypto Chart](documentation/images/chart-crypto.png) | Investment preferences and tech adoption |
+| **Comprehensive Dashboard** | ![Dashboard](documentation/images/chart-dashboard.png) | Complete 9-panel overview |
+
+---
+
+### 5. **Google Sheets Setup Quick Reference**
+
+## Google Sheets Quick Setup Guide
+
+### Step-by-Step (5 Minutes)
+
+**1. Create Google Cloud Project**
+````
+1. Visit: https://console.cloud.google.com/
+2. Click: "New Project"
+3. Name: "FinanceAnalyzer"
+4. Click: "Create"
+````
+
+**2. Enable APIs**
+````
+1. Go to: "APIs & Services" → "Library"
+2. Search: "Google Sheets API" → Enable
+3. Search: "Google Drive API" → Enable
+````
+
+**3. Create Service Account**
+````
+1. Go to: "APIs & Services" → "Credentials"
+2. Click: "Create Credentials" → "Service Account"
+3. Name: finance-analyzer-sa
+4. Click: "Create" (skip roles)
+5. Click: "Done"
+````
+
+**4. Download Credentials**
+````
+1. Click on: finance-analyzer-sa@...
+2. Go to: "Keys" tab
+3. Click: "Add Key" → "Create new key"
+4. Select: JSON
+5. Download saves automatically
+6. Rename to: creds.json
+7. Move to project root
+````
+
+**5. Share Spreadsheet**
+````
+1. Open creds.json
+2. Copy: "client_email" value
+3. Open your Google Spreadsheet
+4. Click: "Share"
+5. Paste: service account email
+6. Set: "Editor" permission
+7. Uncheck: "Notify people"
+8. Click: "Share"
+````
 
 ---
 

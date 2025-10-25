@@ -382,3 +382,10 @@ class GoogleSheetsHandler:
         except Exception as e:
             display_error_message(f"Error creating spreadsheet: {str(e)}")
             return False
+        
+    def close_connection(self):
+        """Close the connection and cleanup."""
+        self.client = None
+        self.spreadsheet = None
+        self.connected = False
+        display_success_message("Google Sheets connection closed")
