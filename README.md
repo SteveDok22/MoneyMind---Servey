@@ -79,15 +79,6 @@ A Python-based command-line application for analyzing personal finance survey da
    - Enable seamless integration with existing data pipelines
    - Provide export options for downstream analysis
 
-### Success Criteria
-
-- ✅ Process survey data with 100% validation coverage
-- ✅ Generate 5+ visualization types for different analysis needs
-- ✅ Support datasets from 5 to 500+ respondents
-- ✅ Achieve sub-2-second response times for standard analyses
-- ✅ Maintain 100% PEP 8 code compliance
-- ✅ Zero data loss during cloud synchronization
-
 ---
 
 ## User Experience (UX)
@@ -96,7 +87,7 @@ A Python-based command-line application for analyzing personal finance survey da
 
 <div align="center">
 
-![Application Flowchart](documentation/images/flowchart.png)
+![Application Flowchart](assets\images\svg_flowchart.png)
 
 *Application logic flow and decision tree*
 
@@ -166,6 +157,60 @@ A Python-based command-line application for analyzing personal finance survey da
    - **Needs:** Population-level trends, financial wellness metrics, literacy gaps
    - **Pain Points:** Data privacy concerns, difficulty aggregating sources
    - **How This Helps:** Local processing option with secure cloud backup
+
+   ### Common Workflows
+
+#### Workflow 1: Quick Local Analysis
+
+```
+1. python run.py
+2. Enter name → "Alice"
+3. Option 1 → Load local CSV
+4. Option 4 → View summary
+5. Option 5 → Analyze spending
+6. Option 9 → Generate report
+7. Option 10 → Export charts
+8. Option 13 → Exit
+```
+
+**Time:** ~5 minutes  
+**Best For:** Quick insights, offline work
+
+---
+
+#### Workflow 2: Collaborative Cloud Analysis
+
+```
+1. python run.py
+2. Enter name → "Bob"
+3. Option 2 → Connect Google Sheets
+4. Option 3 → Load from cloud (Spreadsheet: "Q1_Data")
+5. Option 7 → Crypto analysis (share with team)
+6. Option 11 → Save to cloud (both results + data)
+7. Option 12 → View sheet info (verify upload)
+8. Option 13 → Exit
+```
+
+**Time:** ~8 minutes  
+**Best For:** Team collaboration, data sharing
+
+---
+
+#### Workflow 3: Comprehensive Research Report
+
+```
+1. python run.py
+2. Enter name → "Charlie"
+3. Option 1 → Load local CSV
+4. Option 4-8 → Run all analyses (take notes)
+5. Option 9 → Generate complete report
+6. Option 10 → Export all charts
+7. Option 10 → Export cleaned data
+8. [Compile into research paper externally]
+9. Option 13 → Exit
+```
+
+**Time:** ~15 minutes  
 
 ### User Stories
 
@@ -1344,64 +1389,6 @@ Session Summary:
 
 Goodbye!
 ```
-
----
-
-### Common Workflows
-
-#### Workflow 1: Quick Local Analysis
-
-```
-1. python run.py
-2. Enter name → "Alice"
-3. Option 1 → Load local CSV
-4. Option 4 → View summary
-5. Option 5 → Analyze spending
-6. Option 9 → Generate report
-7. Option 10 → Export charts
-8. Option 13 → Exit
-```
-
-**Time:** ~5 minutes  
-**Best For:** Quick insights, offline work
-
----
-
-#### Workflow 2: Collaborative Cloud Analysis
-
-```
-1. python run.py
-2. Enter name → "Bob"
-3. Option 2 → Connect Google Sheets
-4. Option 3 → Load from cloud (Spreadsheet: "Q1_Data")
-5. Option 7 → Crypto analysis (share with team)
-6. Option 11 → Save to cloud (both results + data)
-7. Option 12 → View sheet info (verify upload)
-8. Option 13 → Exit
-```
-
-**Time:** ~8 minutes  
-**Best For:** Team collaboration, data sharing
-
----
-
-#### Workflow 3: Comprehensive Research Report
-
-```
-1. python run.py
-2. Enter name → "Charlie"
-3. Option 1 → Load local CSV
-4. Option 4-8 → Run all analyses (take notes)
-5. Option 9 → Generate complete report
-6. Option 10 → Export all charts
-7. Option 10 → Export cleaned data
-8. [Compile into research paper externally]
-9. Option 13 → Exit
-```
-
-**Time:** ~15 minutes  
-**Best For:** Academic research, formal reports
-
 ---
 
 ## Sample Output Examples
