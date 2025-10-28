@@ -6,11 +6,12 @@ This application provides insights into spending patterns, savings behavior,
 investment preferences, and fintech adoption among survey respondents.
 """
 import os
+import sys
 
 # Heroku deployment handler
 if os.environ.get('PORT'):
     from http.server import HTTPServer, BaseHTTPRequestHandler
-    import sys
+    
     
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):
@@ -23,7 +24,7 @@ if os.environ.get('PORT'):
             <p><strong>Deployment Successful!</strong></p>
             <p>This is a command-line interactive application. To use it locally:</p>
             <pre style='background: #f4f4f4; padding: 15px;'>
-git clone [your-repo-url]
+git clone https://github.com/yourusername/personal-finance-analyzer
 cd personal-finance-analyzer
 python -m venv venv
 source venv/bin/activate
@@ -39,8 +40,6 @@ python run.py
     HTTPServer(('0.0.0.0', port), Handler).serve_forever()
     sys.exit(0)
 
-import os
-import sys
 from src.data_handler import DataHandler
 from src.analyzer import FinanceAnalyzer
 from src.visualizer import DataVisualizer
