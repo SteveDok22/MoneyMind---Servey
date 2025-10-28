@@ -48,11 +48,23 @@ class GoogleSheetsHandler:
         try:
             display_loading_message("Connecting to Google Sheets...")
             
-            # Load credentials from the JSON file
-            creds = Credentials.from_service_account_file(
-                self.credentials_file,
-                scopes=self.SCOPE
-            )
+            # Check if running on Heroku (CREDS env variable exists)
+            import os
+            import json
+            
+            if os.environ.get('CREDS'):
+                # Running on Heroku - load from environment variable
+                creds_dict = json.loads(os.environ.get('CREDS'))
+                creds = Credentials.from_service_account_info(
+                    creds_dict,
+                    scopes=self.SCOPE
+                )
+            else:
+                # Running locally - load from file
+                creds = Credentials.from_service_account_file(
+                    self.credentials_file,
+                    scopes=self.SCOPE
+                )
             
             # Authorize the client
             self.client = gspread.authorize(creds)
