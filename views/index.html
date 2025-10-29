@@ -1,0 +1,31 @@
+<body>
+    <div class="header">
+        <h1>Personal Finance Survey Analyzer</h1>
+        <p>By Stiven | Full Stack FinTech Developer</p>
+    </div>
+    <button onclick="window.location.reload();" class="run-button">Run Program</button>
+    <div id="terminal"></div>
+
+    <script>
+        var term = new Terminal({
+            cols: 80,
+            rows: 24
+        });
+        term.open(document.getElementById('terminal'));
+        term.writeln('Loading Personal Finance Survey Analyzer...');
+        term.writeln('');
+
+        var ws = new WebSocket(location.protocol.replace('http', 'ws') + '//' + location.hostname + (location.port ? (
+            ':' + location.port) : '') + '/');
+
+        ws.onopen = function () {
+            new attach.attach(term, ws);
+        };
+
+        ws.onerror = function (e) {
+            console.log(e);
+        };
+        // Set focus in the terminal
+        document.getElementsByClassName("xterm-helper-textarea")[0].focus();
+    </script>
+</body>

@@ -5,46 +5,20 @@ A command-line application for analyzing personal finance survey data.
 This application provides insights into spending patterns, savings behavior,
 investment preferences, and fintech adoption among survey respondents.
 """
-import os
 import sys
+import os
 
-# Heroku deployment handler
+# For Heroku deployment with Code Institute template
 if os.environ.get('PORT'):
-    from http.server import HTTPServer, BaseHTTPRequestHandler
-    
-    
-    class Handler(BaseHTTPRequestHandler):
-        def do_GET(self):
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(b"""
-            <html><body style='font-family: Arial; max-width: 800px; margin: 50px auto; padding: 20px;'>
-            <h1>Personal Finance Survey Analyzer</h1>
-            <p><strong>Deployment Successful!</strong></p>
-            <p>This is a command-line interactive application. To use it locally:</p>
-            <pre style='background: #f4f4f4; padding: 15px;'>
-git clone https://github.com/yourusername/personal-finance-analyzer
-cd personal-finance-analyzer
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python run.py
-            </pre>
-            <p>This Heroku deployment demonstrates cloud deployment readiness.</p>
-            </body></html>
-            """)
-        def log_message(self, *args): pass
-    
-    port = int(os.environ.get('PORT', 8000))
-    HTTPServer(('0.0.0.0', port), Handler).serve_forever()
-    sys.exit(0)
-
-from src.data_handler import DataHandler
-from src.analyzer import FinanceAnalyzer
-from src.visualizer import DataVisualizer
-from src.google_sheets_handler import GoogleSheetsHandler
-from src.utils import clear_screen, validate_choice
+    # Running on Heroku with web terminal
+    pass  # The template handles the web server
+else:
+    # Running locally - use the CLI directly
+    from src.data_handler import DataHandler
+    from src.analyzer import FinanceAnalyzer
+    from src.visualizer import DataVisualizer
+    from src.google_sheets_handler import GoogleSheetsHandler
+    from src.utils import clear_screen, validate_choice
 
 
 class PersonalFinanceAnalyzer:
