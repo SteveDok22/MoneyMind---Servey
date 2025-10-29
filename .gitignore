@@ -39,15 +39,17 @@ wheels/
 .DS_Store
 Thumbs.db
 
-# Google API Credentials
+# Google API Credentials - NEVER COMMIT THESE!
+creds.json
 *credentials*.json
-credentials.json
 token.json
-*.json
-!package.json
 *.pickle
 
 # Project specific
 exports/
 *.log
 temp/
+
+# IMPORTANT: Allow specific JSON files needed for deployment
+!package.json
+!requirements.txt
