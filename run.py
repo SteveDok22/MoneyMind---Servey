@@ -130,45 +130,45 @@ class PersonalFinanceAnalyzer:
         return True
     
     def connect_google_sheets(self):
-    """Connect to Google Sheets API."""
-    print("\n" + "-" * 50)
-    print("CONNECTING TO GOOGLE SHEETS")
-    print("-" * 50)
-    
-    try:
-        # Handle Heroku environment - create creds.json from env var
-        import os
-        import json
+        """Connect to Google Sheets API."""
+        print("\n" + "-" * 50)
+        print("CONNECTING TO GOOGLE SHEETS")
+        print("-" * 50)
         
-        if 'CREDS' in os.environ:
-            creds_content = os.environ.get('CREDS')
-            with open('creds.json', 'w') as f:
-                f.write(creds_content)
-            print("📝 Created credentials from environment variable")
-        
-        self.sheets_handler = GoogleSheetsHandler()
-        success = self.sheets_handler.connect()
-        
-        if success:
-            self.sheets_connected = True
-            print("\n📝 Next step: Use option 3 to load data from a spreadsheet")
-            self.sheets_handler.log_user_session(
-                self.username, 
-                "Connected to Google Sheets"
-            )
-        else:
-            print("\n❌ Connection failed. Please check:")
-            print("  1. creds.json file exists in project root")
-            print("  2. Service account has necessary permissions")
-            print("  3. Google Sheets API is enabled")
-            print("\n💡 TIP: The app works perfectly without Google Sheets!")
-            print("   Use Option 1 to load local CSV data instead.")
+        try:
+            # Handle Heroku environment - create creds.json from env var
+            import os
+            import json
             
-    except Exception as e:
-        print(f"❌ Error: {str(e)}")
-        
-    input("\nPress Enter to continue...\n")
-    return True
+            if 'CREDS' in os.environ:
+                creds_content = os.environ.get('CREDS')
+                with open('creds.json', 'w') as f:
+                    f.write(creds_content)
+                print("📝 Created credentials from environment variable")
+            
+            self.sheets_handler = GoogleSheetsHandler()
+            success = self.sheets_handler.connect()
+            
+            if success:
+                self.sheets_connected = True
+                print("\n📝 Next step: Use option 3 to load data from a spreadsheet")
+                self.sheets_handler.log_user_session(
+                    self.username, 
+                    "Connected to Google Sheets"
+                )
+            else:
+                print("\n❌ Connection failed. Please check:")
+                print("  1. creds.json file exists in project root")
+                print("  2. Service account has necessary permissions")
+                print("  3. Google Sheets API is enabled")
+                print("\n💡 TIP: The app works perfectly without Google Sheets!")
+                print("   Use Option 1 to load local CSV data instead.")
+                
+        except Exception as e:
+            print(f"❌ Error: {str(e)}")
+            
+        input("\nPress Enter to continue...\n")
+        return True
     
     def load_google_sheets_data(self):
         """Load data from Google Sheets."""
