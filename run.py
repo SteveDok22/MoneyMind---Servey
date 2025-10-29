@@ -5,42 +5,10 @@ A command-line application for analyzing personal finance survey data.
 This application provides insights into spending patterns, savings behavior,
 investment preferences, and fintech adoption among survey respondents.
 """
-import os
+# Fix matplotlib backend for Heroku (no display)
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
 import sys
-
-# Heroku deployment: Show landing page
-if os.environ.get('PORT'):
-    from http.server import HTTPServer, BaseHTTPRequestHandler
-    
-    class Handler(BaseHTTPRequestHandler):
-        def do_GET(self):
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(b"""
-            <html><body style='font-family: Arial; max-width: 800px; margin: 50px auto; padding: 20px;'>
-            <h1>Personal Finance Survey Analyzer</h1>
-            <p><strong>Deployment Successful!</strong></p>
-            <p>This is a command-line application. To use it locally:</p>
-            <pre style='background: #f4f4f4; padding: 15px; border-radius: 5px;'>
-git clone https://github.com/SteveDok22/MoneyMind-Survey
-cd MoneyMind-Survey
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\\Scripts\\activate
-pip install -r requirements.txt
-python run.py
-            </pre>
-            <p>GitHub Repository: <a href='https://github.com/SteveDok22/MoneyMind-Survey'>View Code</a></p>
-            </body></html>
-            """)
-        def log_message(self, *args): 
-            pass
-    
-    port = int(os.environ.get('PORT', 8000))
-    HTTPServer(('0.0.0.0', port), Handler).serve_forever()
-    sys.exit(0)
-
-# Local execution: Run CLI application
 from src.data_handler import DataHandler
 from src.analyzer import FinanceAnalyzer
 from src.visualizer import DataVisualizer
@@ -162,35 +130,45 @@ class PersonalFinanceAnalyzer:
         return True
     
     def connect_google_sheets(self):
-        """Connect to Google Sheets API."""
-        print("\n" + "-" * 50)
-        print("CONNECTING TO GOOGLE SHEETS")
-        print("-" * 50)
+    """Connect to Google Sheets API."""
+    print("\n" + "-" * 50)
+    print("CONNECTING TO GOOGLE SHEETS")
+    print("-" * 50)
+    
+    try:
+        # Handle Heroku environment - create creds.json from env var
+        import os
+        import json
         
-        try:
-            self.sheets_handler = GoogleSheetsHandler()
-            success = self.sheets_handler.connect()
+        if 'CREDS' in os.environ:
+            creds_content = os.environ.get('CREDS')
+            with open('creds.json', 'w') as f:
+                f.write(creds_content)
+            print("📝 Created credentials from environment variable")
+        
+        self.sheets_handler = GoogleSheetsHandler()
+        success = self.sheets_handler.connect()
+        
+        if success:
+            self.sheets_connected = True
+            print("\n📝 Next step: Use option 3 to load data from a spreadsheet")
+            self.sheets_handler.log_user_session(
+                self.username, 
+                "Connected to Google Sheets"
+            )
+        else:
+            print("\n❌ Connection failed. Please check:")
+            print("  1. creds.json file exists in project root")
+            print("  2. Service account has necessary permissions")
+            print("  3. Google Sheets API is enabled")
+            print("\n💡 TIP: The app works perfectly without Google Sheets!")
+            print("   Use Option 1 to load local CSV data instead.")
             
-            if success:
-                self.sheets_connected = True
-                print("\n📝 Next step: Use option 3 to load data from a spreadsheet")
-                self.sheets_handler.log_user_session(
-                    self.username, 
-                    "Connected to Google Sheets"
-                )
-            else:
-                print("\n❌ Connection failed. Please check:")
-                print("  1. creds.json file exists in project root")
-                print("  2. Service account has necessary permissions")
-                print("  3. Google Sheets API is enabled")
-                print("\n💡 TIP: The app works perfectly without Google Sheets!")
-                print("   Use Option 1 to load local CSV data instead.")
-                
-        except Exception as e:
-            print(f"❌ Error: {str(e)}")
-            
-        input("\nPress Enter to continue...\n")
-        return True
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+        
+    input("\nPress Enter to continue...\n")
+    return True
     
     def load_google_sheets_data(self):
         """Load data from Google Sheets."""

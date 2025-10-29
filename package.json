@@ -1,19 +1,24 @@
 {
   "name": "terminal",
-  "version": "0.0.1",
-  "description": "Python terminal for Code Institute",
+  "version": "1.0.0",
+  "description": "Personal Finance Survey Analyzer",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lechien73/terminal"
+    "url": "https://github.com/yourusername/personal-finance-analyzer"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yourusername/personal-finance-analyzer/issues"
+  },
+  "homepage": "https://github.com/yourusername/personal-finance-analyzer",
   "dependencies": {
     "node-pty": "^0.10.1",
+    "node-static": "^0.7.11",
     "total4": "^0.0.45"
   }
-} 
+}

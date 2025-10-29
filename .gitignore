@@ -44,6 +44,7 @@ Thumbs.db
 credentials.json
 token.json
 *.json
+!package.json
 *.pickle
 
 # Project specific

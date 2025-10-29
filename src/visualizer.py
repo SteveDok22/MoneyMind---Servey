@@ -28,6 +28,9 @@ class DataVisualizer:
         
     def setup_style(self):
         """Set up matplotlib and seaborn styling."""
+        import matplotlib
+        matplotlib.use('Agg')  # Non-interactive backend
+        
         plt.style.use('default')
         sns.set_palette("husl")
         plt.rcParams['figure.figsize'] = (10, 6)
@@ -115,7 +118,7 @@ class DataVisualizer:
                 plt.savefig(save_path, dpi=300, bbox_inches='tight')
                 display_success_message(f"Spending charts saved to {save_path}")
             
-            plt.show()
+            # plt.show()  # Disabled for Heroku()
             return True
             
         except Exception as e:
@@ -199,7 +202,7 @@ class DataVisualizer:
                 plt.savefig(save_path, dpi=300, bbox_inches='tight')
                 display_success_message(f"Savings charts saved to {save_path}")
             
-            plt.show()
+            # plt.show()  # Disabled for Heroku()
             return True
             
         except Exception as e:
@@ -271,7 +274,7 @@ class DataVisualizer:
                 plt.savefig(save_path, dpi=300, bbox_inches='tight')
                 display_success_message(f"Investment charts saved to {save_path}")
             
-            plt.show()
+            # plt.show()  # Disabled for Heroku()
             return True
             
         except Exception as e:
@@ -355,7 +358,7 @@ class DataVisualizer:
                 plt.savefig(save_path, dpi=300, bbox_inches='tight')
                 display_success_message(f"Financial literacy charts saved to {save_path}")
             
-            plt.show()
+            # plt.show()  # Disabled for Heroku()
             return True
             
         except Exception as e:
@@ -438,7 +441,7 @@ class DataVisualizer:
                 plt.savefig(save_path, dpi=300, bbox_inches='tight')
                 display_success_message(f"Financial literacy charts saved to {save_path}")
             
-            plt.show()
+            # plt.show()  # Disabled for Heroku()
             return True
             
         except Exception as e:
@@ -585,7 +588,7 @@ class DataVisualizer:
                 plt.savefig(save_path, dpi=300, bbox_inches='tight')
                 display_success_message(f"Dashboard saved to {save_path}")
             
-            plt.show()
+            # plt.show()  # Disabled for Heroku()
             return True
             
         except Exception as e:
