@@ -1,21 +1,20 @@
 {
   "name": "terminal",
   "version": "1.0.0",
-  "description": "Personal Finance Survey Analyzer",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/personal-finance-analyzer"
+    "url": "git+https://github.com/lechien73/terminal.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yourusername/personal-finance-analyzer/issues"
+    "url": "https://github.com/lechien73/terminal/issues"
   },
-  "homepage": "https://github.com/yourusername/personal-finance-analyzer",
+  "homepage": "https://github.com/lechien73/terminal#readme",
   "dependencies": {
     "node-pty": "^0.10.1",
     "node-static": "^0.7.11",
