@@ -9,6 +9,8 @@ import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
 from datetime import datetime
+import os
+import json
 from src.utils import (
     display_success_message, 
     display_error_message, 
@@ -48,17 +50,13 @@ class GoogleSheetsHandler:
         try:
             display_loading_message("Connecting to Google Sheets...")
             
-            # Check if running on Heroku (CREDS env variable exists)
-            import os
-            import json
+            # Try to get credentials from environment variable first (for Heroku)
+            creds_json = os.environ.get('CREDS')
             
-            if os.environ.get('CREDS'):
-                # Running on Heroku - load from environment variable
-                creds_dict = json.loads(os.environ.get('CREDS'))
-                creds = Credentials.from_service_account_info(
-                    creds_dict,
-                    scopes=self.SCOPE
-                )
+            if creds_json:
+                # Running on Heroku - use environment variable
+                creds_dict = json.loads(creds_json)
+                creds = Credentials.from_service_account_info(creds_dict, scopes=self.SCOPE)
             else:
                 # Running locally - load from file
                 creds = Credentials.from_service_account_file(

@@ -12,6 +12,7 @@ import sys
 def clear_screen():
     """Clear the terminal screen for better user experience."""
     os.system('cls' if os.name == 'nt' else 'clear')
+    
 
 def validate_choice(choice, min_val, max_val):
     """
@@ -101,7 +102,7 @@ def print_subsection_header(title, width=40):
     Args:
         title (str): Header title
         width (int): Total width of the header
-    """ 
+     """
     print("\n" + "-" * width)
     print(f"{title}")
     print("-" * width)
@@ -124,6 +125,7 @@ def safe_divide(numerator, denominator, default=0):
         return numerator / denominator
     except (ValueError, TypeError):
         return default
+
 
 
 def display_success_message(message):
@@ -180,4 +182,3 @@ def create_directory_if_not_exists(directory_path):
     except OSError as e:
         print(f"Error creating directory {directory_path}: {e}")
         return False
-    
