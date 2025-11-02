@@ -5,9 +5,8 @@ A command-line application for analyzing personal finance survey data.
 This application provides insights into spending patterns, savings behavior,
 investment preferences, and fintech adoption among survey respondents.
 """
-# Fix matplotlib backend for Heroku (no display)
-import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend
+
+import os
 import sys
 from src.data_handler import DataHandler
 from src.analyzer import FinanceAnalyzer
@@ -41,11 +40,11 @@ class PersonalFinanceAnalyzer:
         print("and fintech adoption trends.\n")
         
         # Get username
-        self.username = input("Please enter your name: \n").strip()
+        self.username = input("Please enter your name: ").strip()
         if not self.username:
             self.username = "Guest"
         print(f"\nWelcome, {self.username}!")
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         
     def display_menu(self):
         """Display the main menu options."""
@@ -94,7 +93,7 @@ class PersonalFinanceAnalyzer:
             return action() if choice != '13' else False
         else:
             print("\n❌ Invalid choice. Please select a number from 1-13.")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
         
     def load_local_data(self):
@@ -126,7 +125,7 @@ class PersonalFinanceAnalyzer:
         except Exception as e:
             print(f"❌ Error loading data: {str(e)}")
             
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
     
     def connect_google_sheets(self):
@@ -136,16 +135,6 @@ class PersonalFinanceAnalyzer:
         print("-" * 50)
         
         try:
-            # Handle Heroku environment - create creds.json from env var
-            import os
-            import json
-            
-            if 'CREDS' in os.environ:
-                creds_content = os.environ.get('CREDS')
-                with open('creds.json', 'w') as f:
-                    f.write(creds_content)
-                print("📝 Created credentials from environment variable")
-            
             self.sheets_handler = GoogleSheetsHandler()
             success = self.sheets_handler.connect()
             
@@ -167,7 +156,7 @@ class PersonalFinanceAnalyzer:
         except Exception as e:
             print(f"❌ Error: {str(e)}")
             
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
     
     def load_google_sheets_data(self):
@@ -175,7 +164,7 @@ class PersonalFinanceAnalyzer:
         if not self.sheets_connected:
             print("\n❌ Please connect to Google Sheets first (Option 2)")
             print("💡 Or use Option 1 to load local CSV data")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
         
         print("\n" + "-" * 50)
@@ -183,14 +172,14 @@ class PersonalFinanceAnalyzer:
         print("-" * 50)
         
         try:
-            spreadsheet_name = input("\nEnter spreadsheet name: \n").strip()
+            spreadsheet_name = input("\nEnter spreadsheet name: ").strip()
             if not spreadsheet_name:
                 print("❌ Spreadsheet name cannot be empty")
-                input("Press Enter to continue...\n")
+                input("Press Enter to continue...")
                 return True
             
             if self.sheets_handler.open_spreadsheet(spreadsheet_name):
-                worksheet_name = input("Enter worksheet name (default: survey_data): \n").strip()
+                worksheet_name = input("Enter worksheet name (default: survey_data): ").strip()
                 if not worksheet_name:
                     worksheet_name = 'survey_data'
                 
@@ -215,14 +204,14 @@ class PersonalFinanceAnalyzer:
         except Exception as e:
             print(f"❌ Error: {str(e)}")
             
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
     
     def view_data_summary(self):
         """Display basic data summary."""
         if not self.data_loaded:
             print("\n❌ Please load data first (Option 1 or 3)")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
             
         print("\n" + "-" * 50)
@@ -236,14 +225,14 @@ class PersonalFinanceAnalyzer:
             for key, value in data.items():
                 print(f"  {key}: {value}")
         
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
         
     def analyze_spending_patterns(self):
         """Analyze spending patterns across categories."""
         if not self.data_loaded:
             print("\n❌ Please load data first (Option 1 or 3)")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
             
         print("\n" + "-" * 50)
@@ -265,18 +254,18 @@ class PersonalFinanceAnalyzer:
                 print(f"  • {insight}")
         
         # Ask if user wants visualization
-        show_viz = input("\n📈 Would you like to see spending charts? (yes/no): \n").strip().lower()
+        show_viz = input("\n📈 Would you like to see spending charts? (yes/no): ").strip().lower()
         if show_viz in ['yes', 'y']:
             self.visualizer.create_spending_charts()
         
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
         
     def compare_income_savings(self):
         """Compare income vs savings analysis."""
         if not self.data_loaded:
             print("\n❌ Please load data first (Option 1 or 3)")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
             
         print("\n" + "-" * 50)
@@ -304,18 +293,18 @@ class PersonalFinanceAnalyzer:
                 print(f"  • {insight}")
         
         # Ask if user wants visualization
-        show_viz = input("\n📈 Would you like to see savings charts? (yes/no): \n").strip().lower()
+        show_viz = input("\n📈 Would you like to see savings charts? (yes/no): ").strip().lower()
         if show_viz in ['yes', 'y']:
             self.visualizer.create_savings_charts()
         
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
     
     def analyze_crypto_investments(self):
         """Analyze cryptocurrency and investment preferences."""
         if not self.data_loaded:
             print("\n❌ Please load data first (Option 1 or 3)")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
             
         print("\n" + "-" * 50)
@@ -343,18 +332,18 @@ class PersonalFinanceAnalyzer:
                 print(f"  • {insight}")
         
         # Ask if user wants visualization
-        show_viz = input("\n📈 Would you like to see investment charts? (yes/no): \n").strip().lower()
+        show_viz = input("\n📈 Would you like to see investment charts? (yes/no): ").strip().lower()
         if show_viz in ['yes', 'y']:
             self.visualizer.create_investment_charts()
         
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
     
     def analyze_financial_literacy(self):
         """Analyze financial literacy scores and correlations."""
         if not self.data_loaded:
             print("\n❌ Please load data first (Option 1 or 3)")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
             
         print("\n" + "-" * 50)
@@ -388,18 +377,18 @@ class PersonalFinanceAnalyzer:
                 print(f"  • {insight}")
         
         # Ask if user wants visualization
-        show_viz = input("\n📈 Would you like to see literacy charts? (yes/no): \n").strip().lower()
+        show_viz = input("\n📈 Would you like to see literacy charts? (yes/no): ").strip().lower()
         if show_viz in ['yes', 'y']:
             self.visualizer.create_financial_literacy_charts()
         
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
     
     def generate_complete_report(self):
         """Generate a complete analysis report."""
         if not self.data_loaded:
             print("\n❌ Please load data first (Option 1 or 3)")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
             
         print("\n" + "-" * 50)
@@ -423,7 +412,7 @@ class PersonalFinanceAnalyzer:
             print(f"{i}. {finding}")
         
         # Ask if user wants detailed breakdown
-        show_detail = input("\n📄 Would you like to see detailed analysis sections? (yes/no): \n").strip().lower()
+        show_detail = input("\n📄 Would you like to see detailed analysis sections? (yes/no): ").strip().lower()
         if show_detail in ['yes', 'y']:
             for section_name, section_data in report["Detailed Analysis"].items():
                 print("\n" + "-" * 50)
@@ -434,18 +423,18 @@ class PersonalFinanceAnalyzer:
                         print(f"  • {insight}")
         
         # Ask if user wants comprehensive dashboard
-        show_dash = input("\n📊 Would you like to see the comprehensive dashboard? (yes/no): \n").strip().lower()
+        show_dash = input("\n📊 Would you like to see the comprehensive dashboard? (yes/no): ").strip().lower()
         if show_dash in ['yes', 'y']:
             self.visualizer.create_comprehensive_dashboard()
         
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
     
     def export_results(self):
         """Export analysis results to files."""
         if not self.data_loaded:
             print("\n❌ Please load data first (Option 1 or 3)")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
             
         print("\n" + "-" * 50)
@@ -457,7 +446,7 @@ class PersonalFinanceAnalyzer:
         print("2. Export cleaned data (CSV)")
         print("3. Export both")
         
-        choice = input("\nSelect export option (1-3): \n").strip()
+        choice = input("\nSelect export option (1-3): ").strip()
         
         if choice == '1' or choice == '3':
             print("\n📊 Exporting charts...")
@@ -477,7 +466,7 @@ class PersonalFinanceAnalyzer:
                 "Exported analysis results"
             )
         
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
     
     def save_to_google_sheets(self):
@@ -485,12 +474,12 @@ class PersonalFinanceAnalyzer:
         if not self.sheets_connected:
             print("\n❌ Please connect to Google Sheets first (Option 2)")
             print("💡 Or use Option 10 to export locally")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
         
         if not self.data_loaded:
             print("\n❌ Please load data first (Option 1 or 3)")
-            input("Press Enter to continue...\n")
+            input("Press Enter to continue...")
             return True
         
         print("\n" + "-" * 50)
@@ -502,7 +491,7 @@ class PersonalFinanceAnalyzer:
         print("2. Cleaned data")
         print("3. Both")
         
-        choice = input("\nSelect option (1-3): \n").strip()
+        choice = input("\nSelect option (1-3): ").strip()
         
         try:
             if choice == '1' or choice == '3':
@@ -537,7 +526,7 @@ class PersonalFinanceAnalyzer:
         except Exception as e:
             print(f"❌ Error: {str(e)}")
         
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
     
     def view_sheets_info(self):
@@ -564,7 +553,7 @@ class PersonalFinanceAnalyzer:
                 for name in info.get('worksheet_names', []):
                     print(f"  • {name}")
         
-        input("\nPress Enter to continue...\n")
+        input("\nPress Enter to continue...")
         return True
     
     def run(self):
@@ -573,11 +562,11 @@ class PersonalFinanceAnalyzer:
         
         while True:
             self.display_menu()
-            choice = input("\nEnter your choice (1-13): \n").strip()
+            choice = input("\nEnter your choice (1-13): ").strip()
             
             if not validate_choice(choice, 1, 13):
                 print("\n❌ Invalid choice. Please enter a number between 1 and 13.")
-                input("Press Enter to continue...\n")
+                input("Press Enter to continue...")
                 continue
                 
             continue_app = self.handle_menu_choice(choice)
@@ -597,7 +586,7 @@ class PersonalFinanceAnalyzer:
                 
                 break
     
-def main():  
+def main():
     """Application entry point."""
     try:
         app = PersonalFinanceAnalyzer()
@@ -610,5 +599,5 @@ def main():
         sys.exit(1)
 
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
     main()
