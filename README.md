@@ -23,8 +23,8 @@ A Python-based command-line & Streamlit application for analyzing personal finan
 
 <div align="center">
 
-![Am I Responsive](assets\Web\WebScreenMain.png)
-![Am I Responsive](assets\CLI\mainMenu.png)
+![Am I Responsive](assets/Web/WebScreenMain.png)
+![Am I Responsive](assets/CLI/mainMenu.png)
 
 *Personal Finance Survey Analyzer displayed across multiple devices!*
 
@@ -114,7 +114,7 @@ A Python-based command-line & Streamlit application for analyzing personal finan
 
 <div align="center">
 
-![Application Flowchart](assets\images\svg_flowchart.png)
+![Application Flowchart](assets/images/svg_flowchart.png)
 
 *Application logic flow and decision tree*
 
@@ -721,7 +721,7 @@ python -m venv venv
 # Activate virtual environment
 
 # On Windows:
-venv\Scripts\activate
+venv/Scripts/activate
 
 # On macOS/Linux:
 source venv/bin/activate
@@ -940,7 +940,7 @@ cd MoneyMind - Servey
 
 # 2. Activate virtual environment
 source venv/bin/activate  # macOS/Linux
-venv\Scripts\activate     # Windows
+venv/Scripts/activate     # Windows
 
 # 3. Run application
 python run.py
@@ -1017,7 +1017,7 @@ Visit: https://money-minde-servey-3397e1a23ed8.herokuapp.com/
 ### Video Action
 
 <div align="center">
-  <img src="assets\video\CLIrun.py-gif.gif" alt="Application" width="800"/>
+  <img src="assets/video/CLIrun.py-gif.gif" alt="Application" width="800"/>
   
   *Watch the application in action*
 </div>
@@ -1032,13 +1032,13 @@ python run.py
 
 **What You'll See:**
 
-![Welcome Screen](assets\CLI\welcomeSreen1.png)
+![Welcome Screen](assets/CLI/welcomeSreen1.png)
 
 **What to Do:**
 1. Type your name: `Stiven`
 2. Press Enter
 
-![Welcome Screen](assets\CLI\welcomeScreen2.png)
+![Welcome Screen](assets/CLI/welcomeScreen2.png)
 
 ---
 
@@ -1046,7 +1046,7 @@ python run.py
 
 **What You'll See:**
 
-![Main Menu](assets\CLI\mainMenu.png)
+![Main Menu](assets/CLI/mainMenu.png)
 
 ---
 
@@ -1058,7 +1058,7 @@ python run.py
 
 **What You'll See:**
 
-![Load Local Data](assets\CLI\loadData.png)
+![Load Local Data](assets/CLI/loadData.png)
 
 ---
 
@@ -1071,7 +1071,7 @@ python run.py
 
 **What You'll See:**
 
-![Data Summary](assets\CLI\dataSummary.png)
+![Data Summary](assets/CLI/dataSummary.png)
 
 ---
 
@@ -1084,7 +1084,7 @@ python run.py
 
 **What You'll See:**
 
-![Spending Analysis](assets\CLI\spendingAnalysis.png)
+![Spending Analysis](assets/CLI/spendingAnalysis.png)
 
 **What to Do:**
 1. Type: `no`
@@ -1101,7 +1101,7 @@ python run.py
 
 **What You'll See:**
 
-![Savings Analysis](assets\CLI\savingsAnalysis.png)
+![Savings Analysis](assets/CLI/savingsAnalysis.png)
 
 **What to Do:**
 1. Type: `no`
@@ -1117,7 +1117,7 @@ python run.py
 
 **What You'll See:**
 
-![Cryptocurrency Analysis](assets\CLI\CryptocurrencyAnalysis.png)
+![Cryptocurrency Analysis](assets/CLI/CryptocurrencyAnalysis.png)
 
 **What to Do:**
 1. Type: `no`
@@ -1133,7 +1133,7 @@ python run.py
 
 **What You'll See:**
 
-![Financial Literacy](assets\CLI\FinancialLiteracy.png)
+![Financial Literacy](assets/CLI/FinancialLiteracy.png)
 
 **What to Do:**
 1. Type: `no`
@@ -1149,7 +1149,7 @@ python run.py
 
 **What You'll See:**
 
-![Complete Report](assets\CLI\CompleteReport.png)
+![Complete Report](assets/CLI/CompleteReport.png)
 
 **What to Do:**
 1. Type: `no`
@@ -1165,7 +1165,7 @@ python run.py
 
 **What You'll See:**
 
-![Exit Application](assets\CLI\ExitApplication.png)
+![Exit Application](assets/CLI/ExitApplication.png)
 
 ---
 
@@ -1188,7 +1188,7 @@ python run.py
 
 <div align="center">
 
-![Streamlit Interface](assets\Web\WebScreen1.png)
+![Streamlit Interface](assets/Web/WebScreen1.png)
 *Modern web interface with sidebar navigation*
 
 </div>
@@ -1200,11 +1200,11 @@ python run.py
 
 | Chart Type | Preview | Description |
 |------------|---------|-------------|
-| **Spending Distribution** | ![Spending Chart](assets\Web\CharSpendingAnalysis.png) | 4-panel analysis with pie, bar, scatter, and histogram |
-| **Savings Analysis** | ![Savings Chart](assets\Web\CharSavingsAnalysis.png) | Savings vs income with trend lines |
-| **Crypto Adoption** | ![Crypto Chart](assets\Web\CharCryptoAnalysis.png) | Investment preferences and tech adoption |
-| **Financial Literacy** | ![Financial Literacy](assets\Web\CharSavingsAnalysis.png) | Moderate financial literacy levels |
-| **Comprehensive Dashboard** | ![Dashboard](assets\Web\CharComDashboard.png) | Complete 9-panel overview |
+| **Spending Distribution** | ![Spending Chart](assets/Web/CharSpendingAnalysis.png) | 4-panel analysis with pie, bar, scatter, and histogram |
+| **Savings Analysis** | ![Savings Chart](assets/Web/CharSavingsAnalysis.png) | Savings vs income with trend lines |
+| **Crypto Adoption** | ![Crypto Chart](assets/Web/CharCryptoAnalysis.png) | Investment preferences and tech adoption |
+| **Financial Literacy** | ![Financial Literacy](assets/Web/CharSavingsAnalysis.png) | Moderate financial literacy levels |
+| **Comprehensive Dashboard** | ![Dashboard](assets/Web/CharComDashboard.png) | Complete 9-panel overview |
 
 ---
 
@@ -1490,7 +1490,7 @@ remote: !     Push rejected, failed to compile app.
 **Solution:**
 ```bash
 # Created Procfile
-echo "web: streamlit run app.py --server.port=\$PORT --server.address=0.0.0.0" > Procfile
+echo "web: streamlit run app.py --server.port=/$PORT --server.address=0.0.0.0" > Procfile
 ```
 
 ---
@@ -1902,13 +1902,13 @@ All Python files have been validated using the [CI Python Linter](https://pep8ci
 
 | File | Lines | Issues | Status | Screenshot |
 |------|-------|--------|--------|------------|
-| `run.py` | 670 | 0 | ✅ Pass | ![View](assets\Linter\linter-run.py.png) |
+| `run.py` | 670 | 0 | ✅ Pass | ![View](assets/Linter/linter-run.py.png) |
 | `app.py` | 288 | 0 | ✅ Pass | ![View](assets/Linter/linter-app.py.png) |
-| `src/data_handler.py` | 365 | 0 | ✅ Pass | ![View](assets\Linter\linter-data_handler.py.png) |
-| `src/analyzer.py` | 475 | 0 | ✅ Pass | ![View](assets\Linter\linter-analyzer.py.png) |
+| `src/data_handler.py` | 365 | 0 | ✅ Pass | ![View](assets/Linter/linter-data_handler.py.png) |
+| `src/analyzer.py` | 475 | 0 | ✅ Pass | ![View](assets/Linter/linter-analyzer.py.png) |
 | `src/visualizer.py` | 696 | 0 | ✅ Pass | ![View](assets/Linter/linter-visualizer.py.png) |
-| `src/google_sheets_handler.py` | 442 | 0 | ✅ Pass | ![View](assets\Linter\linter-google_sheets_handler.py.png) |
-| `src/utils.py` | 189 | 0 | ✅ Pass | ![View](assets\Linter\liner-utils.py.png) |
+| `src/google_sheets_handler.py` | 442 | 0 | ✅ Pass | ![View](assets/Linter/linter-google_sheets_handler.py.png) |
+| `src/utils.py` | 189 | 0 | ✅ Pass | ![View](assets/Linter/liner-utils.py.png) |
 | **TOTAL** | **3,132** | **0** | **100%** | - |
 
 [Validate My Code →](https://pep8ci.herokuapp.com/)
@@ -2434,7 +2434,7 @@ def display_error_message(message):
 # Used in run.py lines 40-60
 def display_menu(self):
     """Display the main menu options."""
-    print("\n" + "=" * 50)
+    print("/n" + "=" * 50)
     print("           MAIN MENU")
     print("=" * 50)
     print("📂 DATA SOURCES:")
