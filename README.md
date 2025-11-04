@@ -12,11 +12,6 @@ A Python-based command-line & Streamlit application for analyzing personal finan
 
 **Platform:** Heroku Cloud | **Status:** 🟢 Online | **Response Time:** < 2s
 
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/t/SteveDok22/MoneyMind---Servey)](https://github.com/SteveDok22/MoneyMind---Servey/commits/main/)
-[![GitHub last commit](https://img.shields.io/github/last-commit/SteveDok22/MoneyMind---Servey)](https://github.com/yourusername/personal-finance-analyzer/commits/main)
-[![GitHub repo size](https://img.shields.io/github/repo-size/SteveDok22/MoneyMind---Servey)](https://github.com/yourusername/personal-finance-analyzer)
-
-
 ---
 
 </div>
