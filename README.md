@@ -1,20 +1,44 @@
 # PERSONAL FINANCE SURVEY ANALYZER
 
-A Python-based command-line application for analyzing personal finance survey data with cloud integration and professional visualizations.
+A Python-based command-line & Streamlit application for analyzing personal finance survey data with cloud integration and professional visualizations.
 
 <div align="center">
 
-![Am I Responsive](documentation/images/responsive-mockup.png)
+## 🌐 Live Deployment
+
+<a href="https://money-minde-servey-3397e1a23ed8.herokuapp.com/" target="_blank">
+  <img src="https://img.shields.io/badge/_LAUNCH_APPLICATION-Click_Here-blueviolet?style=for-the-badge&logo=heroku&logoColor=white" alt="Launch Application" height="50"/>
+</a>
+
+**Platform:** Heroku Cloud | **Status:** 🟢 Online | **Response Time:** < 2s
+
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/t/SteveDok22/MoneyMind---Servey)](https://github.com/SteveDok22/MoneyMind---Servey/commits/main/)
+[![GitHub last commit](https://img.shields.io/github/last-commit/SteveDok22/MoneyMind---Servey)](https://github.com/yourusername/personal-finance-analyzer/commits/main)
+[![GitHub repo size](https://img.shields.io/github/repo-size/SteveDok22/MoneyMind---Servey)](https://github.com/yourusername/personal-finance-analyzer)
+
+
+---
+
+</div>
+
+<div align="center">
+
+![Am I Responsive](assets\Web\WebScreenMain.png)
+![Am I Responsive](assets\CLI\mainMenu.png)
 
 *Personal Finance Survey Analyzer displayed across multiple devices*
 
 </div>
 
-**Live Application:** [Deployed on Heroku](https://money-minde-servey-3397e1a23ed8.herokuapp.com/)
+<div align="center">
 
-[![GitHub commit activity](https://img.shields.io/github/repo-size/yourusername/personal-finance-analyzer)](https://github.com/SteveDok22/MoneyMind---Servey/commits/main/)
-[![GitHub last commit](https://img.shields.io/github/last-commit/yourusername/personal-finance-analyzer)](https://github.com/yourusername/personal-finance-analyzer/commits/main)
-[![GitHub repo size](https://img.shields.io/github/repo-size/yourusername/personal-finance-analyzer)](https://github.com/yourusername/personal-finance-analyzer)
+---
+
+</div>
+
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/t/SteveDok22/MoneyMind---Servey)](https://github.com/SteveDok22/MoneyMind---Servey/commits/main/)
+[![GitHub last commit](https://img.shields.io/github/last-commit/SteveDok22/MoneyMind---Servey)](https://github.com/yourusername/personal-finance-analyzer/commits/main)
+[![GitHub repo size](https://img.shields.io/github/repo-size/SteveDok22/MoneyMind---Servey)](https://github.com/yourusername/personal-finance-analyzer)
 
 ---
 
@@ -30,7 +54,7 @@ A Python-based command-line application for analyzing personal finance survey da
 - [Technologies Used](#technologies-used)
 - [Installation & Setup](#installation--setup)
 - [Usage Guide](#usage-guide)
-- [Sample Output Examples](#sample-output-examples)
+- [CLI Screenshot Guide](#cli-screenshot-guide)
 - [Development Journey & Challenges](#development-journey--challenges)
 - [Testing](#testing)
 - [Code Validation](#code-validation)
@@ -95,6 +119,8 @@ A Python-based command-line application for analyzing personal finance survey da
 *Application logic flow and decision tree*
 
 </div>
+
+---
 
 **Flowchart Description:**
 
@@ -327,71 +353,6 @@ Main Menu → Exit?
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Module Overview
-````
-src/
-├── __init__.py              (10 lines)   - Package initialization
-├── utils.py                 (200 lines)  - Helper functions
-│   ├── clear_screen()                    - Terminal management
-│   ├── validate_choice()                 - Input validation
-│   ├── format_currency()                 - Money formatting
-│   ├── format_percentage()               - Percent formatting
-│   ├── display_*_message()               - User feedback
-│   └── create_directory_if_not_exists()  - File operations
-│
-├── data_handler.py          (250 lines)  - Data management
-│   ├── DataHandler class
-│   ├── load_csv()                        - CSV loading
-│   ├── _validate_data_structure()        - Column validation
-│   ├── _clean_data()                     - Type conversion
-│   ├── get_data_summary()                - Overview stats
-│   ├── filter_data()                     - Data filtering
-│   └── export_cleaned_data()             - CSV export
-│
-├── analyzer.py              (400 lines)  - Financial analysis
-│   ├── FinanceAnalyzer class
-│   ├── get_spending_analysis()           - Spending patterns
-│   ├── get_savings_analysis()            - Savings behavior
-│   ├── get_investment_analysis()         - Investment & crypto
-│   ├── get_fintech_adoption_analysis()   - Tech adoption
-│   ├── get_financial_literacy_analysis() - Knowledge assessment
-│   └── get_comprehensive_report()        - Complete report
-│
-├── visualizer.py            (450 lines)  - Chart generation
-│   ├── DataVisualizer class
-│   ├── create_spending_charts()          - 4-panel spending
-│   ├── create_savings_charts()           - 4-panel savings
-│   ├── create_investment_charts()        - 4-panel investment
-│   ├── create_financial_literacy_charts() - 4-panel literacy
-│   ├── create_comprehensive_dashboard()  - Full dashboard
-│   └── export_all_charts()               - Batch export
-│
-└── google_sheets_handler.py (350 lines)  - Cloud integration
-    ├── GoogleSheetsHandler class
-    ├── connect()                         - API authentication
-    ├── open_spreadsheet()                - Access spreadsheet
-    ├── load_survey_data()                - Load from cloud
-    ├── save_analysis_results()           - Save to cloud
-    ├── export_dataframe_to_sheets()      - Upload DataFrame
-    └── log_user_session()                - Activity tracking
-
-INTERFACES:
-run.py                       (500 lines)  - CLI Application
-├── PersonalFinanceAnalyzer class
-├── display_welcome()                     - Welcome screen
-├── display_menu()                        - 13-option menu
-├── handle_menu_choice()                  - Routing logic
-└── run()                                 - Main loop
-
-app.py                       (400 lines)  - Streamlit Web App
-├── render_sidebar()                      - User input sidebar
-├── render_data_loading()                 - File upload
-├── render_analysis()                     - Analysis display
-└── main()                                - Streamlit main
-
-Total: 2,560 lines of production code
-````
-
 ### Data Flow
 ````
 CSV File / Google Sheets
@@ -424,7 +385,7 @@ This project implements a **dual-interface architecture** to meet both assessmen
 **Usage:** `python run.py`  
 **Purpose:** Assessment demonstration and local analysis
 
-#### Features:
+#### Feature:
 - ✅ Traditional terminal-based interface for direct user interaction
 - ✅ Menu-driven navigation with 13 options
 - ✅ Interactive prompts with keyboard input
@@ -455,7 +416,6 @@ CLI applications with `input()` prompts require an **interactive terminal** with
 **Usage:** Access via web browser  
 **Purpose:** Portfolio showcase and cloud deployment (fulfills LO9)
 
-#### Features:
 - ✅ Modern web-based interface
 - ✅ No installation required for end users
 - ✅ Accessible from anywhere with internet
@@ -874,10 +834,10 @@ personal-finance-analyzer/
 │
 ├── assets/                         # Documentation assets
 │   ├── images/                     # Project images
-│   │   └── svg_flowchart.png      # Application flowchart
-│   └── screenshots/                # Interface screenshots
-│       ├── cli/                    # CLI demonstration
-│       └── web/                    # Streamlit interface
+│   ├── Linter/                     # CI Python Linter tests
+│   ├── cli/                        # CLI demonstration
+│   ├── video/                      # Video Action of CLI
+│   └── web/                        # Streamlit interface
 │
 ├── controllers/                    # Additional controllers (if needed)
 │   └── default.js
@@ -889,12 +849,12 @@ personal-finance-analyzer/
 ├── venv/                           # Virtual environment (gitignored)
 │
 ├── tests/                          # Test files
-│   ├── test_data_handler.py       # Data handler tests
-│   ├── test_analyzer.py           # Analyzer tests
-│   ├── test_visualizer.py         # Visualizer tests
-│   ├── test_google_sheets.py      # Google Sheets tests
-│   ├── test_all_visuals.py        # Visual tests
-│   └── test_full_analyzer.py      # Integration tests
+│   ├── test_data_handler.py        # Data handler tests
+│   ├── test_analyzer.py            # Analyzer tests
+│   ├── test_visualizer.py          # Visualizer tests
+│   ├── test_google_sheets.py       # Google Sheets tests
+│   ├── test_all_visuals.py         # Visual tests
+│   └── test_full_analyzer.py       # Integration tests
 │
 ├── .gitignore                      # Git exclusions
 ├── requirements.txt                # Python dependencies
@@ -905,6 +865,8 @@ personal-finance-analyzer/
 ├── creds.json                      # Google credentials (gitignored)
 └── README.md                       # This file
 ```
+Total: 2,560 lines of production code
+
 ### Key Directories Explained
 
 **Interfaces:**
@@ -1044,59 +1006,209 @@ Visit: https://money-minde-servey-3397e1a23ed8.herokuapp.com/
 
 ---
 
-## Sample Output Examples
+## CLI Screenshot Guide
 
-### Terminal Interface
+**Before Starting:**
+1. ✅ Virtual environment activated
+2. ✅ Sample data file exists (`data/sample_survey.csv`)
+3. ✅ Terminal window sized appropriately (readable text)
+4. ✅ Screenshot tool ready (Windows: `Win+Shift+S`, Mac: `Cmd+Shift+4`)
+
+### Video Action
+
+<div align="center">
+  <img src="assets\video\CLIrun.py-gif.gif" alt="Application" width="800"/>
+  
+  *Watch the application in action*
+</div>
+
+
+#### Screenshot 1: Welcome Screen
+
+**Action:**
+```bash
+python run.py
+```
+
+**What You'll See:**
+
+![Welcome Screen](assets\CLI\welcomeSreen1.png)
+
+**What to Do:**
+1. Type your name: `Stiven`
+2. Press Enter
+
+![Welcome Screen](assets\CLI\welcomeScreen2.png)
+
+---
+
+#### Screenshot 2: Main Menu
+
+**What You'll See:**
+
+![Main Menu](assets\CLI\mainMenu.png)
+
+---
+
+#### Screenshot 3: Load Data
+
+**Action:**
+1. Type: `1` (Load Local CSV Data)
+2. Press Enter
+
+**What You'll See:**
+
+![Load Local Data](assets\CLI\loadData.png)
+
+---
+
+#### Screenshot 4: Data Summary
+
+**Action:**
+1. Press Enter (return to menu)
+2. Type: `4` (View Data Summary)
+3. Press Enter
+
+**What You'll See:**
+
+![Data Summary](assets\CLI\dataSummary.png)
+
+---
+
+#### Screenshot 5: Spending Analysis
+
+**Action:**
+1. Press Enter (return to menu)
+2. Type: `5` (Analyze Spending Patterns)
+3. Press Enter
+
+**What You'll See:**
+
+![Spending Analysis](assets\CLI\spendingAnalysis.png)
+
+**What to Do:**
+1. Type: `no`
+2. Press Enter
+
+---
+
+#### Screenshot 6: Savings Analysis
+
+**Action:**
+1. Return to menu
+2. Type: `6` (Compare Income vs Savings)
+3. Press Enter
+
+**What You'll See:**
+
+![Savings Analysis](assets\CLI\savingsAnalysis.png)
+
+**What to Do:**
+1. Type: `no`
+
+---
+
+#### Screenshot 7: Cryptocurrency Analysis
+
+**Action:**
+1. Return to menu
+2. Type: `7` (Cryptocurrency & Investment Analysis)
+3. Press Enter
+
+**What You'll See:**
+
+![Cryptocurrency Analysis](assets\CLI\CryptocurrencyAnalysis.png)
+
+**What to Do:**
+1. Type: `no`
+
+---
+
+#### Screenshot 8: Financial Literacy
+
+**Action:**
+1. Return to menu
+2. Type: `8` (Financial Literacy Insights)
+3. Press Enter
+
+**What You'll See:**
+
+![Financial Literacy](assets\CLI\FinancialLiteracy.png)
+
+**What to Do:**
+1. Type: `no`
+
+---
+
+#### Screenshot 9: Complete Report
+
+**Action:**
+1. Return to menu
+2. Type: `9` (Generate Complete Report)
+3. Press Enter
+
+**What You'll See:**
+
+![Complete Report](assets\CLI\CompleteReport.png)
+
+**What to Do:**
+1. Type: `no`
+
+---
+
+#### Screenshot 10: Exit Application
+
+**Action:**
+1. Return to menu
+2. Type: `13` (Exit Application)
+3. Press Enter
+
+**What You'll See:**
+
+![Exit Application](assets\CLI\ExitApplication.png)
+
+---
+
+### 🎯 Quick Reference - Numbers to Type
+
+| Screenshot # | What to Type | Purpose |
+|-------------|--------------|---------|
+| 1 | `Stiven` | Enter name |
+| 2 | *(nothing)* | Show menu |
+| 3 | `1` | Load data |
+| 4 | `4` | Data summary |
+| 5 | `5` | Spending analysis |
+| 6 | `6` | Savings analysis |
+| 7 | `7` | Crypto analysis |
+| 8 | `8` | Financial literacy |
+| 9 | `9` | Complete report |
+| 10 | `13` | Exit |
+
+### Web Interface Screenshots
 
 <div align="center">
 
-![Welcome Screen](documentation/images/welcome-screen.png)
-*Welcome screen with user name prompt*
-
-![Main Menu](documentation/images/main-menu.png)
-*13-option interactive menu*
-
-![Data Summary](documentation/images/data-summary-output.png)
-*Sample data summary output*
+![Streamlit Interface](assets\Web\WebScreen1.png)
+*Modern web interface with sidebar navigation*
 
 </div>
 
-### Analysis Output Examples
+---
 
-**Spending Analysis:**
-<div align="center">
-
-![Spending Output](documentation/images/spending-analysis-output.png)
-*Terminal output showing spending patterns*
-
-</div>
-
-**Cryptocurrency Analysis:**
-<div align="center">
-
-![Crypto Output](documentation/images/crypto-analysis-output.png)
-*FinTech-focused cryptocurrency adoption metrics*
-
-</div>
-
-### Visualization Examples
 
 **Chart Collection:**
 
 | Chart Type | Preview | Description |
 |------------|---------|-------------|
-| **Spending Distribution** | ![Spending Chart](documentation/images/chart-spending.png) | 4-panel analysis with pie, bar, scatter, and histogram |
-| **Savings Analysis** | ![Savings Chart](documentation/images/chart-savings.png) | Savings vs income with trend lines |
-| **Crypto Adoption** | ![Crypto Chart](documentation/images/chart-crypto.png) | Investment preferences and tech adoption |
-| **Comprehensive Dashboard** | ![Dashboard](documentation/images/chart-dashboard.png) | Complete 9-panel overview |
+| **Spending Distribution** | ![Spending Chart](assets\Web\CharSpendingAnalysis.png) | 4-panel analysis with pie, bar, scatter, and histogram |
+| **Savings Analysis** | ![Savings Chart](assets\Web\CharSavingsAnalysis.png) | Savings vs income with trend lines |
+| **Crypto Adoption** | ![Crypto Chart](assets\Web\CharCryptoAnalysis.png) | Investment preferences and tech adoption |
+| **Financial Literacy** | ![Financial Literacy](assets\Web\CharSavingsAnalysis.png) | Moderate financial literacy levels |
+| **Comprehensive Dashboard** | ![Dashboard](assets\Web\CharComDashboard.png) | Complete 9-panel overview |
 
 ---
 
-### 5. **Google Sheets Setup Quick Reference**
-
 ## Google Sheets Setup 
-
-### Step-by-Step 
 
 **1. Create Google Cloud Project**
 ````
@@ -1790,16 +1902,16 @@ All Python files have been validated using the [CI Python Linter](https://pep8ci
 
 | File | Lines | Issues | Status | Screenshot |
 |------|-------|--------|--------|------------|
-| `run.py` | 500 | 0 | ✅ Pass | [View](documentation/images/validation-run.png) |
-| `app.py` | 400 | 0 | ✅ Pass | [View](documentation/images/validation-app.png) |
-| `src/data_handler.py` | 280 | 0 | ✅ Pass | [View](documentation/images/validation-data-handler.png) |
-| `src/analyzer.py` | 420 | 0 | ✅ Pass | [View](documentation/images/validation-analyzer.png) |
-| `src/visualizer.py` | 310 | 0 | ✅ Pass | [View](documentation/images/validation-visualizer.png) |
-| `src/google_sheets_handler.py` | 245 | 0 | ✅ Pass | [View](documentation/images/validation-google-sheets.png) |
-| `src/utils.py` | 180 | 0 | ✅ Pass | [View](documentation/images/validation-utils.png) |
-| **TOTAL** | **2,335** | **0** | **100%** | - |
+| `run.py` | 670 | 0 | ✅ Pass | ![View](assets\Linter\linter-run.py.png) |
+| `app.py` | 288 | 0 | ✅ Pass | ![View](assets/Linter/linter-app.py.png) |
+| `src/data_handler.py` | 365 | 0 | ✅ Pass | ![View](assets\Linter\linter-data_handler.py.png) |
+| `src/analyzer.py` | 475 | 0 | ✅ Pass | ![View](assets\Linter\linter-analyzer.py.png) |
+| `src/visualizer.py` | 696 | 0 | ✅ Pass | ![View](assets/Linter/linter-visualizer.py.png) |
+| `src/google_sheets_handler.py` | 442 | 0 | ✅ Pass | ![View](assets\Linter\linter-google_sheets_handler.py.png) |
+| `src/utils.py` | 189 | 0 | ✅ Pass | ![View](assets\Linter\liner-utils.py.png) |
+| **TOTAL** | **3,132** | **0** | **100%** | - |
 
-[Validate Your Code →](https://pep8ci.herokuapp.com/)
+[Validate My Code →](https://pep8ci.herokuapp.com/)
 
 </div>
 
@@ -2629,6 +2741,10 @@ st.pyplot(fig)
 - [matplotlib Documentation](https://matplotlib.org/stable/index.html)
 - [gspread Documentation](https://docs.gspread.org/)
 - [Streamlit Documentation](https://docs.streamlit.io/)
+- [PEP 8 Style Guide](https://pep8.org/)
+- [Flake8 Documentation](https://flake8.pycqa.org/)
+- [autopep8 Documentation](https://github.com/hhatto/autopep8)
+- [Black Documentation](https://black.readthedocs.io/)
 
 
 **Community Resources:**

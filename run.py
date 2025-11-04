@@ -8,6 +8,7 @@ investment preferences, and fintech adoption among survey respondents.
 
 import os
 import sys
+import matplotlib.pyplot as plt
 from src.data_handler import DataHandler
 from src.analyzer import FinanceAnalyzer
 from src.visualizer import DataVisualizer
@@ -273,7 +274,11 @@ class PersonalFinanceAnalyzer:
             "\n📈 Would you like to see spending charts? (yes/no): "
         ).strip().lower()
         if show_viz in ['yes', 'y']:
-            self.visualizer.create_spending_charts()
+            print("\n📊 Opening chart window...")
+            fig = self.visualizer.create_spending_charts()
+            if fig:
+                plt.show()
+                print("✅ Chart displayed! Close the window to continue.")
 
         input("\nPress Enter to continue...")
         return True
@@ -314,7 +319,11 @@ class PersonalFinanceAnalyzer:
             "\n📈 Would you like to see savings charts? (yes/no): "
         ).strip().lower()
         if show_viz in ['yes', 'y']:
-            self.visualizer.create_savings_charts()
+            print("\n📊 Opening chart window...")
+            fig = self.visualizer.create_savings_charts()
+            if fig:
+                plt.show()
+                print("✅ Chart displayed! Close the window to continue.")
 
         input("\nPress Enter to continue...")
         return True
@@ -357,7 +366,11 @@ class PersonalFinanceAnalyzer:
             "\n📈 Would you like to see investment charts? (yes/no): "
         ).strip().lower()
         if show_viz in ['yes', 'y']:
-            self.visualizer.create_investment_charts()
+            print("\n📊 Opening chart window...")
+            fig = self.visualizer.create_investment_charts()
+            if fig:
+                plt.show()
+                print("✅ Chart displayed! Close the window to continue.")
 
         input("\nPress Enter to continue...")
         return True
@@ -404,7 +417,11 @@ class PersonalFinanceAnalyzer:
             "\n📈 Would you like to see literacy charts? (yes/no): "
         ).strip().lower()
         if show_viz in ['yes', 'y']:
-            self.visualizer.create_financial_literacy_charts()
+            print("\n📊 Opening chart window...")
+            fig = self.visualizer.create_financial_literacy_charts()
+            if fig:
+                plt.show()
+                print("✅ Chart displayed! Close the window to continue.")
 
         input("\nPress Enter to continue...")
         return True
@@ -458,7 +475,11 @@ class PersonalFinanceAnalyzer:
             "(yes/no): "
         ).strip().lower()
         if show_dash in ['yes', 'y']:
-            self.visualizer.create_comprehensive_dashboard()
+            print("\n📊 Opening dashboard window...")
+            fig = self.visualizer.create_comprehensive_dashboard()
+            if fig:
+                plt.show()
+                print("✅ Dashboard displayed! Close the window to continue.")
 
         input("\nPress Enter to continue...")
         return True
