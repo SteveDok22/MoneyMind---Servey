@@ -90,7 +90,8 @@ def main():
 
     st.markdown("""
     ### Welcome!
-    Analyze personal finance survey data to gain insights into spending, savings, investments, and financial literacy.
+    Analyze personal finance survey data to gain insights into spending,
+    savings, investments, and financial literacy.
     """)
 
     # Sidebar

@@ -217,8 +217,10 @@ class GoogleSheetsHandler:
                     cols=10
                 )
                 # Add headers if new worksheet
-                worksheet.append_row(
-                    ['Timestamp', 'Analysis Type', 'Total Respondents', 'Key Finding', 'Details'])
+                worksheet.append_row([
+                    'Timestamp', 'Analysis Type', 'Total Respondents',
+                    'Key Finding', 'Details'
+                ])
 
             # Prepare data for insertion
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -392,20 +394,24 @@ class GoogleSheetsHandler:
 
             # Add headers
             headers = [
-                'respondent_id', 'age', 'annual_income', 'monthly_savings',
-                'uses_mobile_banking', 'owns_crypto', 'primary_investment',
-                'monthly_spending_food', 'monthly_spending_transport',
-                'monthly_spending_entertainment', 'financial_literacy_score',
-                'emergency_fund_months'
+                'respondent_id', 'age', 'annual_income',
+                'monthly_savings', 'uses_mobile_banking', 'owns_crypto',
+                'primary_investment', 'monthly_spending_food',
+                'monthly_spending_transport',
+                'monthly_spending_entertainment',
+                'financial_literacy_score', 'emergency_fund_months'
             ]
 
             worksheet.append_row(headers)
 
             # Add sample data rows
             sample_data = [
-                [1, 25, 45000, 800, 'yes', 'yes', 'stocks', 600, 200, 300, 7, 3],
-                [2, 32, 65000, 1200, 'yes', 'no', 'bonds', 900, 350, 400, 8, 6],
-                [3, 28, 52000, 750, 'no', 'yes', 'crypto', 700, 180, 250, 6, 2]
+                [1, 25, 45000, 800, 'yes', 'yes', 'stocks',
+                 600, 200, 300, 7, 3],
+                [2, 32, 65000, 1200, 'yes', 'no', 'bonds',
+                 900, 350, 400, 8, 6],
+                [3, 28, 52000, 750, 'no', 'yes', 'crypto',
+                 700, 180, 250, 6, 2]
             ]
 
             for row in sample_data:
@@ -415,8 +421,12 @@ class GoogleSheetsHandler:
                 f"Spreadsheet '{spreadsheet_name}' created successfully!")
             print(f"\n📊 Spreadsheet URL: {spreadsheet.url}")
             print(
-                "⚠️  IMPORTANT: Share this spreadsheet with your service account email!")
-            print(f"   (Check your creds.json for the 'client_email' field)")
+                "⚠️  IMPORTANT: Share this spreadsheet with your "
+                "service account email!"
+            )
+            print(
+                "   (Check your creds.json for the 'client_email' field)"
+            )
 
             return True
 

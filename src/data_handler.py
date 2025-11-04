@@ -7,7 +7,9 @@ for the personal finance survey analysis application.
 
 import pandas as pd
 import os
-from src.utils import handle_file_error, display_success_message, display_error_message
+from src.utils import (
+    handle_file_error, display_success_message, display_error_message
+)
 
 
 class DataHandler:
@@ -98,9 +100,13 @@ class DataHandler:
 
             # Clean spending columns if they exist
             spending_columns = [
-                col for col in self.data.columns if 'spending' in col.lower()]
+                col for col in self.data.columns
+                if 'spending' in col.lower()
+            ]
             for col in spending_columns:
-                self.data[col] = pd.to_numeric(self.data[col], errors='coerce')
+                self.data[col] = pd.to_numeric(
+                    self.data[col], errors='coerce'
+                )
 
             # Clean yes/no columns - convert to True/False
             yes_no_columns = ['uses_mobile_banking', 'owns_crypto']
@@ -119,26 +125,26 @@ class DataHandler:
     def _generate_data_info(self):
         """Generate summary information about the loaded data."""
         self.data_info = {
-            'total_records': len(
-                self.data),
-            'columns_count': len(
-                self.data.columns),
+            'total_records': len(self.data),
+            'columns_count': len(self.data.columns),
             'numeric_columns': list(
                 self.data.select_dtypes(
-                    include=[
-                        'int64',
-                        'float64']).columns),
+                    include=['int64', 'float64']
+                ).columns
+            ),
             'categorical_columns': list(
                 self.data.select_dtypes(
-                    include=[
-                        'object',
-                        'bool']).columns),
+                    include=['object', 'bool']
+                ).columns
+            ),
             'age_range': (
-                self.data['age'].min(),
-                self.data['age'].max()) if 'age' in self.data.columns else None,
+                self.data['age'].min(), self.data['age'].max()
+            ) if 'age' in self.data.columns else None,
             'income_range': (
                 self.data['annual_income'].min(),
-                self.data['annual_income'].max()) if 'annual_income' in self.data.columns else None}
+                self.data['annual_income'].max()
+            ) if 'annual_income' in self.data.columns else None
+        }
 
     def get_data_summary(self):
         """
@@ -154,25 +160,62 @@ class DataHandler:
             "Dataset Overview": {
                 "Total Respondents": len(self.data),
                 "Number of Columns": len(self.data.columns),
-                "Age Range": f"{self.data['age'].min():.0f} - {self.data['age'].max():.0f} years" if 'age' in self.data.columns else "N/A",
-                "Income Range": f"${self.data['annual_income'].min():,.0f} - ${self.data['annual_income'].max():,.0f}" if 'annual_income' in self.data.columns else "N/A"
+                "Age Range": (
+                    f"{self.data['age'].min():.0f} - "
+                    f"{self.data['age'].max():.0f} years"
+                    if 'age' in self.data.columns else "N/A"
+                ),
+                "Income Range": (
+                    f"${self.data['annual_income'].min():,.0f} - "
+                    f"${self.data['annual_income'].max():,.0f}"
+                    if 'annual_income' in self.data.columns else "N/A"
+                )
             },
             "Demographics": {
-                "Average Age": f"{self.data['age'].mean():.1f} years" if 'age' in self.data.columns else "N/A",
-                "Median Income": f"${self.data['annual_income'].median():,.0f}" if 'annual_income' in self.data.columns else "N/A",
-                "Average Savings": f"${self.data['monthly_savings'].mean():,.0f}" if 'monthly_savings' in self.data.columns else "N/A"
-            },
-            "Technology Adoption": {
-                "Mobile Banking Users": f"{(self.data['uses_mobile_banking'].sum() / len(self.data) * 100):.1f}%" if 'uses_mobile_banking' in self.data.columns else "N/A",
-                "Crypto Owners": f"{(self.data['owns_crypto'].sum() / len(self.data) * 100):.1f}%" if 'owns_crypto' in self.data.columns else "N/A"
+                "Average Age": (
+                    f"{self.data['age'].mean():.1f} years"
+                    if 'age' in self.data.columns else "N/A"
+                ),
+                "Median Income": (
+                    f"${self.data['annual_income'].median():,.0f}"
+                    if 'annual_income' in self.data.columns else "N/A"
+                ),
+                "Average Savings": (
+                    f"${self.data['monthly_savings'].mean():,.0f}"
+                    if 'monthly_savings' in self.data.columns else "N/A"
+                )
             }
         }
+
+        # Technology Adoption
+        tech_adoption = {}
+        if 'uses_mobile_banking' in self.data.columns:
+            mobile_pct = (
+                self.data['uses_mobile_banking'].sum() /
+                len(self.data) * 100
+            )
+            tech_adoption["Mobile Banking Users"] = f"{mobile_pct:.1f}%"
+        else:
+            tech_adoption["Mobile Banking Users"] = "N/A"
+
+        if 'owns_crypto' in self.data.columns:
+            crypto_pct = (
+                self.data['owns_crypto'].sum() /
+                len(self.data) * 100
+            )
+            tech_adoption["Crypto Owners"] = f"{crypto_pct:.1f}%"
+        else:
+            tech_adoption["Crypto Owners"] = "N/A"
+
+        summary["Technology Adoption"] = tech_adoption
 
         # Add investment preferences if available
         if 'primary_investment' in self.data.columns:
             investment_counts = self.data['primary_investment'].value_counts()
             summary["Investment Preferences"] = {
-                inv_type.title(): f"{count} ({count / len(self.data) * 100:.1f}%)"
+                inv_type.title(): (
+                    f"{count} ({count / len(self.data) * 100:.1f}%)"
+                )
                 for inv_type, count in investment_counts.head().items()
             }
 
@@ -196,32 +239,41 @@ class DataHandler:
         try:
             # Age filters
             if 'min_age' in kwargs:
-                filtered_data = filtered_data[filtered_data['age']
-                                              >= kwargs['min_age']]
+                filtered_data = filtered_data[
+                    filtered_data['age'] >= kwargs['min_age']
+                ]
             if 'max_age' in kwargs:
-                filtered_data = filtered_data[filtered_data['age']
-                                              <= kwargs['max_age']]
+                filtered_data = filtered_data[
+                    filtered_data['age'] <= kwargs['max_age']
+                ]
 
             # Income filters
             if 'min_income' in kwargs:
-                filtered_data = filtered_data[filtered_data['annual_income']
-                                              >= kwargs['min_income']]
+                filtered_data = filtered_data[
+                    filtered_data['annual_income'] >= kwargs['min_income']
+                ]
             if 'max_income' in kwargs:
-                filtered_data = filtered_data[filtered_data['annual_income']
-                                              <= kwargs['max_income']]
+                filtered_data = filtered_data[
+                    filtered_data['annual_income'] <= kwargs['max_income']
+                ]
 
             # Boolean filters
             if 'uses_mobile_banking' in kwargs:
-                filtered_data = filtered_data[filtered_data['uses_mobile_banking']
-                                              == kwargs['uses_mobile_banking']]
+                filtered_data = filtered_data[
+                    filtered_data['uses_mobile_banking'] ==
+                    kwargs['uses_mobile_banking']
+                ]
             if 'owns_crypto' in kwargs:
-                filtered_data = filtered_data[filtered_data['owns_crypto']
-                                              == kwargs['owns_crypto']]
+                filtered_data = filtered_data[
+                    filtered_data['owns_crypto'] == kwargs['owns_crypto']
+                ]
 
             # Investment type filter
             if 'investment_type' in kwargs:
-                filtered_data = filtered_data[filtered_data['primary_investment']
-                                              == kwargs['investment_type']]
+                filtered_data = filtered_data[
+                    filtered_data['primary_investment'] ==
+                    kwargs['investment_type']
+                ]
 
         except Exception as e:
             display_error_message(f"Error filtering data: {str(e)}")
@@ -249,7 +301,9 @@ class DataHandler:
         for col in critical_columns:
             if col in self.data.columns:
                 missing_pct = (
-                    self.data[col].isnull().sum() / len(self.data)) * 100
+                    self.data[col].isnull().sum() /
+                    len(self.data)
+                ) * 100
                 if missing_pct > 0:
                     report["Data Quality Issues"].append(
                         f"{col}: {missing_pct:.1f}% missing values"
@@ -257,7 +311,10 @@ class DataHandler:
 
         # Check for unrealistic values
         if 'age' in self.data.columns:
-            if (self.data['age'] < 18).any() or (self.data['age'] > 100).any():
+            if (
+                (self.data['age'] < 18).any() or
+                (self.data['age'] > 100).any()
+            ):
                 report["Data Quality Issues"].append(
                     "Age values outside realistic range (18-100)"
                 )
@@ -273,9 +330,11 @@ class DataHandler:
             report["Recommendations"].append("Data quality looks good!")
         else:
             report["Recommendations"].append(
-                "Consider cleaning data before analysis")
+                "Consider cleaning data before analysis"
+            )
             report["Recommendations"].append(
-                "Review and handle missing values appropriately")
+                "Review and handle missing values appropriately"
+            )
 
         return report
 

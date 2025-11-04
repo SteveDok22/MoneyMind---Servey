@@ -112,7 +112,9 @@ class PersonalFinanceAnalyzer:
                 self.data_loaded = True
                 print("✅ Data loaded successfully!")
                 print(
-                    f"📊 Dataset contains {len(self.data_handler.data)} responses")
+                    f"📊 Dataset contains "
+                    f"{len(self.data_handler.data)} responses"
+                )
 
                 # Log session if connected to Google Sheets
                 if self.sheets_connected and self.sheets_handler:
@@ -141,7 +143,10 @@ class PersonalFinanceAnalyzer:
 
             if success:
                 self.sheets_connected = True
-                print("\n📝 Next step: Use option 3 to load data from a spreadsheet")
+                print(
+                    "\n📝 Next step: Use option 3 to load data from a "
+                    "spreadsheet"
+                )
                 self.sheets_handler.log_user_session(
                     self.username,
                     "Connected to Google Sheets"
@@ -151,7 +156,10 @@ class PersonalFinanceAnalyzer:
                 print("  1. creds.json file exists in project root")
                 print("  2. Service account has necessary permissions")
                 print("  3. Google Sheets API is enabled")
-                print("\n💡 TIP: The app works perfectly without Google Sheets!")
+                print(
+                    "\n💡 TIP: The app works perfectly without Google "
+                    "Sheets!"
+                )
                 print("   Use Option 1 to load local CSV data instead.")
 
         except Exception as e:
@@ -181,7 +189,8 @@ class PersonalFinanceAnalyzer:
 
             if self.sheets_handler.open_spreadsheet(spreadsheet_name):
                 worksheet_name = input(
-                    "Enter worksheet name (default: survey_data): ").strip()
+                    "Enter worksheet name (default: survey_data): "
+                ).strip()
                 if not worksheet_name:
                     worksheet_name = 'survey_data'
 
@@ -196,13 +205,15 @@ class PersonalFinanceAnalyzer:
                     self.data_loaded = True
 
                     print(
-                        f"\n✅ Loaded {
-                            len(data)} records from Google Sheets!")
+                        f"\n✅ Loaded {len(data)} records from "
+                        f"Google Sheets!"
+                    )
 
                     # Log session
                     self.sheets_handler.log_user_session(
                         self.username,
-                        f"Loaded data from {spreadsheet_name}/{worksheet_name}"
+                        f"Loaded data from "
+                        f"{spreadsheet_name}/{worksheet_name}"
                     )
 
         except Exception as e:
@@ -259,7 +270,8 @@ class PersonalFinanceAnalyzer:
 
         # Ask if user wants visualization
         show_viz = input(
-            "\n📈 Would you like to see spending charts? (yes/no): ").strip().lower()
+            "\n📈 Would you like to see spending charts? (yes/no): "
+        ).strip().lower()
         if show_viz in ['yes', 'y']:
             self.visualizer.create_spending_charts()
 
@@ -299,7 +311,8 @@ class PersonalFinanceAnalyzer:
 
         # Ask if user wants visualization
         show_viz = input(
-            "\n📈 Would you like to see savings charts? (yes/no): ").strip().lower()
+            "\n📈 Would you like to see savings charts? (yes/no): "
+        ).strip().lower()
         if show_viz in ['yes', 'y']:
             self.visualizer.create_savings_charts()
 
@@ -320,11 +333,11 @@ class PersonalFinanceAnalyzer:
         analysis = self.analyzer.get_investment_analysis()
 
         # Display investment preferences
-        if "Investment Preferences" in analysis and "Distribution" in analysis[
-                "Investment Preferences"]:
+        if ("Investment Preferences" in analysis and
+                "Distribution" in analysis["Investment Preferences"]):
             print("\n📈 Investment Preferences:")
-            for inv_type, count in analysis["Investment Preferences"]["Distribution"].items(
-            ):
+            for inv_type, count in analysis[
+                    "Investment Preferences"]["Distribution"].items():
                 print(f"  {inv_type}: {count}")
 
         # Display crypto analysis - THE FINTECH FOCUS!
@@ -341,7 +354,8 @@ class PersonalFinanceAnalyzer:
 
         # Ask if user wants visualization
         show_viz = input(
-            "\n📈 Would you like to see investment charts? (yes/no): ").strip().lower()
+            "\n📈 Would you like to see investment charts? (yes/no): "
+        ).strip().lower()
         if show_viz in ['yes', 'y']:
             self.visualizer.create_investment_charts()
 
@@ -387,7 +401,8 @@ class PersonalFinanceAnalyzer:
 
         # Ask if user wants visualization
         show_viz = input(
-            "\n📈 Would you like to see literacy charts? (yes/no): ").strip().lower()
+            "\n📈 Would you like to see literacy charts? (yes/no): "
+        ).strip().lower()
         if show_viz in ['yes', 'y']:
             self.visualizer.create_financial_literacy_charts()
 
@@ -423,21 +438,25 @@ class PersonalFinanceAnalyzer:
 
         # Ask if user wants detailed breakdown
         show_detail = input(
-            "\n📄 Would you like to see detailed analysis sections? (yes/no): ").strip().lower()
+            "\n📄 Would you like to see detailed analysis sections? "
+            "(yes/no): "
+        ).strip().lower()
         if show_detail in ['yes', 'y']:
-            for section_name, section_data in report["Detailed Analysis"].items(
-            ):
+            for section_name, section_data in report[
+                    "Detailed Analysis"].items():
                 print("\n" + "-" * 50)
                 print(section_name.upper())
                 print("-" * 50)
-                if isinstance(section_data,
-                              dict) and "Insights" in section_data:
+                if (isinstance(section_data, dict) and
+                        "Insights" in section_data):
                     for insight in section_data["Insights"]:
                         print(f"  • {insight}")
 
         # Ask if user wants comprehensive dashboard
         show_dash = input(
-            "\n📊 Would you like to see the comprehensive dashboard? (yes/no): ").strip().lower()
+            "\n📊 Would you like to see the comprehensive dashboard? "
+            "(yes/no): "
+        ).strip().lower()
         if show_dash in ['yes', 'y']:
             self.visualizer.create_comprehensive_dashboard()
 
@@ -469,7 +488,8 @@ class PersonalFinanceAnalyzer:
         if choice == '2' or choice == '3':
             print("\n💾 Exporting cleaned data...")
             self.data_handler.export_cleaned_data(
-                'exports/data/cleaned_data.csv')
+                'exports/data/cleaned_data.csv'
+            )
 
         if choice not in ['1', '2', '3']:
             print("❌ Invalid choice. Please select 1, 2, or 3.")
@@ -515,12 +535,13 @@ class PersonalFinanceAnalyzer:
 
                 # Prepare analysis data
                 analysis_data = {
-                    'analysis_type': 'Comprehensive Report', 'total_respondents': len(
-                        self.data_handler.data), 'key_finding': ', '.join(
-                        report.get(
-                            'Key Findings', [])[
-                            :2]), 'details': report.get(
-                        'Executive Summary', {})}
+                    'analysis_type': 'Comprehensive Report',
+                    'total_respondents': len(self.data_handler.data),
+                    'key_finding': ', '.join(
+                        report.get('Key Findings', [])[:2]
+                    ),
+                    'details': report.get('Executive Summary', {})
+                }
 
                 self.sheets_handler.save_analysis_results(analysis_data)
 
@@ -555,7 +576,9 @@ class PersonalFinanceAnalyzer:
             print("\n❌ Not connected to Google Sheets")
             print("💡 Use Option 2 to connect")
             print("\nNote: Google Sheets is optional!")
-            print("The app works perfectly with local CSV files (Option 1)")
+            print(
+                "The app works perfectly with local CSV files (Option 1)"
+            )
         else:
             info = self.sheets_handler.get_spreadsheet_info()
 
@@ -581,7 +604,10 @@ class PersonalFinanceAnalyzer:
             choice = input("\nEnter your choice (1-13): ").strip()
 
             if not validate_choice(choice, 1, 13):
-                print("\n❌ Invalid choice. Please enter a number between 1 and 13.")
+                print(
+                    "\n❌ Invalid choice. Please enter a number "
+                    "between 1 and 13."
+                )
                 input("Press Enter to continue...")
                 continue
 
@@ -590,8 +616,9 @@ class PersonalFinanceAnalyzer:
             if not continue_app:
                 print("\n" + "=" * 60)
                 print(
-                    f"Thank you for using Personal Finance Survey Analyzer, {
-                        self.username}!")
+                    f"Thank you for using Personal Finance Survey "
+                    f"Analyzer, {self.username}!"
+                )
                 print("=" * 60)
 
                 # Close Google Sheets connection if active
