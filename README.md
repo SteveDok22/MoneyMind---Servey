@@ -35,7 +35,7 @@ A Python-based command-line & Streamlit application for analyzing personal finan
 </div>
 <div align="center">
 
-![Am I Responsive](assets\CLI\homeScreen.png)
+![Am I Responsive](assets/CLI/homeScreen.png)
 
 *CLI version of Personal Finance Survey Analyzer*
 
