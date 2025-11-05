@@ -4,10 +4,8 @@ A Python-based command-line & Streamlit application for analyzing personal finan
 
 <div align="center">
 
-## 🌐 Live Deployment
-
 <a href="https://money-minde-servey-3397e1a23ed8.herokuapp.com/" target="_blank">
-  <img src="https://img.shields.io/badge/_LAUNCH_APPLICATION-Click_Here-blueviolet?style=for-the-badge&logo=heroku&logoColor=white" alt="Launch Application" height="50"/>
+  <img src="https://img.shields.io/badge/_WEB_STREAMLIT-Click_Here-blueviolet?style=for-the-badge&logo=heroku&logoColor=white" alt="Web Streamlit" height="50"/>
 </a>
 
 **Platform:** Heroku Cloud | **Status:** 🟢 Online | **Response Time:** < 2s
@@ -26,10 +24,8 @@ A Python-based command-line & Streamlit application for analyzing personal finan
 
 <div align="center">
 
-## 🌐 Live Deployment
-
 <a href="https://stiven-finance-analyzer-420201b7946a.herokuapp.com/" target="_blank">
-  <img src="https://img.shields.io/badge/_LAUNCH_APPLICATION-Click_Here-blueviolet?style=for-the-badge&logo=heroku&logoColor=white" alt="Launch Application" height="50"/>
+  <img src="https://img.shields.io/badge/_CLI_APPLICATION-Click_Here-blueviolet?style=for-the-badge&logo=heroku&logoColor=white" alt="CLI Application" height="50"/>
 </a>
 
 **Platform:** Heroku Cloud | **Status:** 🟢 Online | **Response Time:** < 2s
@@ -42,6 +38,7 @@ A Python-based command-line & Streamlit application for analyzing personal finan
 ![Am I Responsive](assets\CLI\homeScreen.png)
 
 *CLI version of Personal Finance Survey Analyzer*
+
 
 </div>
 
